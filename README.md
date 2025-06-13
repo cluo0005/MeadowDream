@@ -1,4 +1,4 @@
-# 🌿 MeadowDream
+# 🌿 Meadow Dream
 A lucid dream companion app designed to help users record, reflect, and grow through personalized AI-powered dream insights.
 
 # ✨ What It Does
