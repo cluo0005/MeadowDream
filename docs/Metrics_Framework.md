@@ -1,4 +1,183 @@
-# 产品评估指标框架 (Metrics Framework) - Meadow Dream
+## Product Evaluation Metrics Framework (Metrics Framework) - Meadow Dream
+
+## 1. Framework Overview
+
+This document aims to define a comprehensive evaluation metrics system for the "Meadow Dream" iOS application. By continuously tracking and analyzing these metrics, the team can effectively measure product performance, user behavior (particularly on the iOS platform), feature effectiveness (such as voice input, tag library, AI positive guidance), and the achievement of business goals, thereby guiding product iteration and optimization of operational strategies to ensure the realization of Wellness value.
+
+## 2. North Star Metric
+
+- **Definition:** **The number of users who complete at least one “Positive Dream Interaction” per week through “Meadow Dream”.**
+    - *“Positive Dream Interaction” Definition:* Users successfully log a dream (text or voice), **manually trigger** and view AI-generated dream interpretations with **positive psychological guidance**, or provide effective feedback on the guidance content (e.g., marking it as “helpful”), or use the tag library to effectively manage dreams, or experience positive emotional feedback due to the App's guidance.
+    - *Selection Rationale:* This metric directly reflects whether users consistently use the core functionality of the product (logging dreams, receiving AI interpretation and **positive guidance**, using the **tag library**) and perceive **Wellness value** from it.  It combines user activity, depth of core feature use (particularly acceptance of **manual triggering** and **positive guidance**), and delivery of the product’s core value (**Wellness**).  It is highly aligned with the product vision defined in the PRD – “to become a personalized Wellness companion for users to explore the subconscious, understand themselves, and enhance psychological well-being through positive guidance.”
+- **Measurement Goals:**
+    - 3 months after MVP (iOS) launch: The number of users completing at least one “Positive Dream Interaction” per week reaches 15% of Firebase registered users.
+    - After V1.1 (iOS) launch: The number of users completing at least one “Positive Dream Interaction” per week reaches 25% of MAU.
+
+## 3. Core Metrics System
+
+We will combine various metrics models to comprehensively evaluate the product, such as the AARRR model and elements of the HEART model.
+
+### 3.1 AARRR Model (User Lifecycle)
+
+#### 3.1.1 Acquisition (Acquire Users - iOS & Firebase)
+
+- **Metrics:**
+    - iOS App Downloads (App Store Connect Downloads)
+    - New User Registrations (Firebase Authentication New Users - Email, Sign in with Apple)
+    - Customer Acquisition Cost (CAC) (e.g., for paid promotions like Apple Search Ads)
+    - Channel Source Distribution (Channel Source Distribution for iOS)
+- **Data Sources:** App Store Connect, Firebase Analytics, Promotion Platform Data.
+- **Analysis Dimensions:** Efficiency of user acquisition from different iOS promotion channels, user personas.
+
+#### 3.1.2 Activation (Activate Users - iOS & Wellness Focus)
+
+- **Metrics:**
+    - Percentage of Users Completing First “Positive Dream Interaction” (e.g., First Successful Dream Log, **manually triggering AI interpretation & positive guidance** and viewing / Total Firebase Registered Users)
+    - New User Onboarding Flow Completion Rate (iOS Onboarding Completion Rate – emphasizing Wellness value and core features such as **voice input, tag library**)
+    - “Aha Moment” Achievement Rate (The moment users experience the product’s core Wellness value, e.g., first time feeling mood improvement from positive guidance)
+    - **First-time Voice Input Success Rate**
+    - **First-time Tag Library Use Success Rate**
+- **Data Sources:** Firebase Analytics, Product Event Tracking.
+- **Analysis Dimensions:** New iOS user conversion funnel, effectiveness of the onboarding flow, adoption rate of core new features.
+
+#### 3.1.3 Retention (Retain Users)
+
+- **Metrics:**
+    - Day 1 Retention Rate
+    - Day 7 Retention Rate
+    - Day 30 Retention Rate
+    - Churn Rate
+    - Weekly Active Users (WAU)
+    - Monthly Active Users (MAU)
+    - DAU/MAU Ratio (User Stickiness)
+- **Data Sources:** Product Event Tracking.
+- **Analysis Dimensions:** Retention rates by different user segments, churn reason analysis.
+
+#### 3.1.4 Referral (Refer Users)
+
+- **Metrics:**
+    - Net Promoter Score (NPS)
+    - Share Feature Usage Count/Rate (if sharing functionality is provided)
+    - K-Factor (if applicable)
+- **Data Sources:** Surveys, Product Event Tracking.
+- **Analysis Dimensions:** User word-of-mouth, product dissemination effectiveness.
+
+#### 3.1.5 Revenue (Revenue)
+
+- **Metrics:** (Based on the business model defined in the PRD: Freemium + Light Advertising + One-Time In-App Purchases for Premium Features/Interpretation Packages)
+    - **Freemium revenue:**
+        - Premium Subscriber Count
+        - Free to Premium Conversion Rate
+        - Average Revenue Per Paying User (ARPPU - for subscribers)
+        - Subscription Renewal Rate
+        - One-time In-App Purchases (e.g., Deep Interpretation Packages) – count and amount.
+    - **Advertising Revenue:**
+        - Ad Impressions
+        - Ad Click-Through Rate (CTR)
+        - Revenue Per Mille (RPM)
+        - Ad Fill Rate
+    - **Overall Revenue:**
+        - Total Revenue
+        - Average Revenue Per User (ARPU - overall)
+        - Customer Lifetime Value (LTV)
+- **Data Sources:** Payment Platform Data, Product Backend, Advertising Platform SDK Data.
+- **Analysis Dimensions:** Paying user personas, conversion effectiveness of different paypoints/ad placements, LTV/CAC ratio, willingness to pay among different user segments.
+
+### 3.2 HEART Model (User Experience)
+
+#### 3.2.1 Happiness (Satisfaction)
+
+- **Metrics:**
+    - Customer Satisfaction Score (CSAT) (Collected through in-app surveys or feedback)
+    - App Store Rating and Sentiment Analysis of Reviews
+    - Feedback after using Specific Features (e.g., Satisfaction with interpretation results)
+- **Data Sources:** Surveys, App Stores, User Feedback System.
+
+#### 3.2.2 Engagement (Engagement)
+
+- **Metrics:**
+    - Average Session Length
+    - Daily/Weekly Usage Frequency
+    - Core Feature Usage Depth (e.g., Average number of dreams logged per session, proportion of users viewing interpretation detail pages)
+    - Content Interaction Rate (e.g., Likes, comments, saves, if a community function is provided)
+- **Data Sources:** Product Event Tracking.
+
+#### 3.2.3 Adoption (Adoption)
+
+- **Metrics:**
+    - New Feature/Characteristic Usage Rate
+    - Acceptance of New Features by Specific User Groups
+- **Data Sources:** Product Event Tracking.
+
+#### 3.2.4 Retention (Retention)
+
+- *(Same as Retention metrics in the AARRR Model)*
+
+#### 3.2.5 Task Success (Task Success)
+
+- **Metrics:**
+    - Core Task Completion Rate (e.g., Successfully logging a dream, successfully receiving an interpretation)
+    - Task Completion Time
+    - Error Rate (in key processes)
+- **Data Sources:** Product Event Tracking.
+
+## 4. Feature-Level Evaluation Metrics
+
+Corresponding evaluation metrics also need to be set for the product’s specific functional modules.
+
+- **Dream Logging Function (iOS - Text/Voice, Tag Library):**
+    - Average Logging Completeness (e.g., text length, **number of tags used**)
+    - **Text Logging vs. Voice Logging Usage Ratio (iOS)**
+    - **Speech-to-Text Accuracy (indirectly assessed through user editing behavior)**
+    - Logging Interruption Rate
+    - **Tag Library Usage Frequency (Creation, Selection of Pre-set Tags)**
+    - **Average Number of Tags Used Per Dream**
+- **AI Dream Interpretation & Positive Guidance Function (iOS – Manually Triggered, Wellness):**
+    - **Manually Triggered** Interpretation and Guidance Request Count
+    - Interpretation and Guidance Result View Rate
+    - User Feedback Distribution Regarding Interpretation Results (“Helpful”, “Neutral”, “Not Helpful”)
+    - **User Acceptance of Positive Guidance Content (e.g., Change in emotional feedback after guidance, click-through rate of specific guidance)**
+    - User Preference for Different Interpretation Types (if multiple interpretation methods are provided)
+- **Search/Filtering Function (Based on Tag Library):**
+    - Search Function Usage Frequency (especially tag-based search)
+    - Search Result Click-Through Rate
+    - Percentage of Zero-Result Searches
+- **User Account Management (Firebase):**
+    - Registration Success Rate (Email, Sign in with Apple)
+    - Login Success Rate
+    - Password Recovery Usage Rate
+- **Wellness Guidance & Prediction Function:**
+    - Open Rate of Proactive Guidance Push Notifications
+    - User Adoption Rate of Predictive Suggestions (if applicable)
+    - Trend in Emotional Positivity of Long-Term Users (Analyzed through emotion logging and feedback)
+- **(If present) Community/Sharing Function:**
+    - Content Publication Volume
+    - User Interaction Volume (Likes, Comments)
+    - Sharing Conversion Rate (iOS sharing functionality)
+
+## 5. Metrics Monitoring Plan
+
+- **Data Collection Tools:**
+    - Front-end Event Tracking: **Firebase Analytics (iOS SDK)**, for tracking user behavior, events, screen views, etc. within the iOS application.
+    - Back-end Logs: Recording key business operations and system status.
+    - Third-Party Platforms: App Store backend, advertising platforms, payment platforms.
+- **Data Dashboards & Reports:**
+    - Establish a data dashboard for core metrics to monitor product dynamics in real-time.
+    - Generate regular product data reports (daily, weekly, monthly) to analyze trends and issues.
+    - Conduct specialized data analysis for specific activities or feature launches.
+- **Data Analysis Methods:**
+    - Trend Analysis: Observing changes in metrics over time.
+    - Comparative Analysis: Comparing data performance across different user groups, different versions, and different channels.
+    - Funnel Analysis: Analyzing user conversion and drop-off in key processes.
+    - User Segmentation: Segmenting by user attributes or behavior to conduct granular analysis.
+    - A/B Testing: For verifying the effectiveness of new features or changes.
+- **Reporting Frequency & Responsibility:**
+    - Core Metrics Daily/Weekly Reports: Product Manager/Data Analyst.
+    - Monthly/Quarterly Reviews: Product Team.
+
+*(This metrics framework will be continuously iterated and optimized based on the development stage of the “Meadow Dream” iOS application and changes in Wellness business objectives.)*# 产品评估指标框架 (Metrics Framework) - Meadow Dream
+
+
 
 ## 1. 指标框架概述
 
