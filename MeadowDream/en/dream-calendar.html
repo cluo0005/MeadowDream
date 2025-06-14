@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Calendar</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .dark .status-bar {
+            color: white;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+        }
+        
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .dark .header {
+            border-bottom-color: #4A5568;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+            margin-right: 8px;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .action-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+        }
+        
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px;
+        }
+        
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .month-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+        
+        .month-nav {
+            display: flex;
+            gap: 16px;
+        }
+        
+        .month-nav-button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #EDF2F7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #4A5568;
+            font-size: 14px;
+        }
+        
+        .dark .month-nav-button {
+            background-color: #2D3748;
+            color: #A0AEC0;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+        
+        .calendar-weekday {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #718096;
+            padding: 8px 0;
+        }
+        
+        .dark .calendar-weekday {
+            color: #A0AEC0;
+        }
+        
+        .calendar-day {
+            aspect-ratio: 1/1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+        }
+        
+        .calendar-day.current-month {
+            background-color: #EDF2F7;
+        }
+        
+        .dark .calendar-day.current-month {
+            background-color: #2D3748;
+        }
+        
+        .calendar-day.other-month {
+            background-color: transparent;
+            color: #A0AEC0;
+        }
+        
+        .dark .calendar-day.other-month {
+            color: #4A5568;
+        }
+        
+        .calendar-day.today {
+            background-color: #5B7FFF;
+            color: white;
+        }
+        
+        .calendar-day.has-dream::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #5B7FFF;
+        }
+        
+        .calendar-day.today.has-dream::after {
+            background-color: white;
+        }
+        
+        .calendar-day.has-dream.positive::after {
+            background-color: #38A169;
+        }
+        
+        .calendar-day.has-dream.negative::after {
+            background-color: #E53E3E;
+        }
+        
+        .calendar-day.has-dream.neutral::after {
+            background-color: #718096;
+        }
+        
+        .calendar-day.today.has-dream.positive::after,
+        .calendar-day.today.has-dream.negative::after,
+        .calendar-day.today.has-dream.neutral::after {
+            background-color: white;
+        }
+        
+        .dream-preview-list {
+            margin-top: 24px;
+        }
+        
+        .preview-date {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .dark .preview-date {
+            border-bottom-color: #4A5568;
+        }
+        
+        .dream-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
+        }
+        
+        .dark .dream-card {
+            background-color: #2D3748;
+        }
+        
+        .dream-time {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+        
+        .dark .dream-time {
+            color: #A0AEC0;
+        }
+        
+        .dream-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .dream-preview {
+            font-size: 14px;
+            color: #4A5568;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .dark .dream-preview {
+            color: #A0AEC0;
+        }
+        
+        .dream-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .dream-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            background-color: #EBF4FF;
+            color: #5B7FFF;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .dark .dream-tag {
+            background-color: #3182CE20;
+        }
+        
+        .emotion-tag {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .emotion-tag.positive {
+            background-color: #C6F6D5;
+            color: #38A169;
+        }
+        
+        .dark .emotion-tag.positive {
+            background-color: #38A16920;
+            color: #68D391;
+        }
+        
+        .emotion-tag.negative {
+            background-color: #FED7D7;
+            color: #E53E3E;
+        }
+        
+        .dark .emotion-tag.negative {
+            background-color: #E53E3E20;
+            color: #FC8181;
+        }
+        
+        .emotion-tag.neutral {
+            background-color: #E2E8F0;
+            color: #718096;
+        }
+        
+        .dark .emotion-tag.neutral {
+            background-color: #71809620;
+            color: #A0AEC0;
+        }
+        
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: white;
+            border-top: 1px solid #E2E8F0;
+        }
+        
+        .dark .tab-bar {
+            background-color: #2D3748;
+            border-top-color: #4A5568;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 0;
+            color: #718096;
+            font-size: 10px;
+            width: 20%;
+        }
+        
+        .dark .tab-item {
+            color: #A0AEC0;
+        }
+        
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .tab-item.active {
+            color: #5B7FFF;
+            font-weight: 500;
+        }
+        
+        .empty-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 0 40px;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: #CBD5E0;
+            margin-bottom: 20px;
+        }
+        
+        .dark .empty-icon {
+            color: #4A5568;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .empty-text {
+            font-size: 14px;
+            color: #718096;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+        
+        .dark .empty-text {
+            color: #A0AEC0;
+        }
+        
+        .empty-button {
+            padding: 12px 24px;
+            background-color: #5B7FFF;
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Status bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="page-title">Calendar</div>
+            </div>
+            <div class="header-actions">
+                <div class="action-button">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="action-button">
+                    <i class="fas fa-ellipsis-h"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <!-- Month selector -->
+            <div class="month-selector">
+                <div class="month-title">October 2023</div>
+                <div class="month-nav">
+                    <div class="month-nav-button">
+                        <i class="fas fa-chevron-left"></i>
+                    </div>
+                    <div class="month-nav-button">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Calendar grid -->
+            <div class="calendar-grid">
+                <!-- Weekday headers -->
+                <div class="calendar-weekday">Sun</div>
+                <div class="calendar-weekday">Mon</div>
+                <div class="calendar-weekday">Tue</div>
+                <div class="calendar-weekday">Wed</div>
+                <div class="calendar-weekday">Thu</div>
+                <div class="calendar-weekday">Fri</div>
+                <div class="calendar-weekday">Sat</div>
+                
+                <!-- Calendar days - Week 1 -->
+                <div class="calendar-day other-month">24</div>
+                <div class="calendar-day other-month">25</div>
+                <div class="calendar-day other-month">26</div>
+                <div class="calendar-day other-month">27</div>
+                <div class="calendar-day other-month">28</div>
+                <div class="calendar-day other-month">29</div>
+                <div class="calendar-day other-month">30</div>
+                
+                <!-- Calendar days - Week 2 -->
+                <div class="calendar-day current-month">1</div>
+                <div class="calendar-day current-month">2</div>
+                <div class="calendar-day current-month">3</div>
+                <div class="calendar-day current-month has-dream positive">4</div>
+                <div class="calendar-day current-month">5</div>
+                <div class="calendar-day current-month">6</div>
+                <div class="calendar-day current-month">7</div>
+                
+                <!-- Calendar days - Week 3 -->
+                <div class="calendar-day current-month">8</div>
+                <div class="calendar-day current-month">9</div>
+                <div class="calendar-day current-month has-dream negative">10</div>
+                <div class="calendar-day current-month">11</div>
+                <div class="calendar-day current-month">12</div>
+                <div class="calendar-day current-month">13</div>
+                <div class="calendar-day current-month">14</div>
+                
+                <!-- Calendar days - Week 4 -->
+                <div class="calendar-day current-month has-dream neutral">15</div>
+                <div class="calendar-day current-month">16</div>
+                <div class="calendar-day current-month">17</div>
+                <div class="calendar-day current-month">18</div>
+                <div class="calendar-day current-month">19</div>
+                <div class="calendar-day current-month">20</div>
+                <div class="calendar-day current-month">21</div>
+                
+                <!-- Calendar days - Week 5 -->
+                <div class="calendar-day current-month">22</div>
+                <div class="calendar-day current-month">23</div>
+                <div class="calendar-day current-month">24</div>
+                <div class="calendar-day current-month">25</div>
+                <div class="calendar-day current-month today has-dream positive">26</div>
+                <div class="calendar-day current-month">27</div>
+                <div class="calendar-day current-month">28</div>
+                
+                <!-- Calendar days - Week 6 -->
+                <div class="calendar-day current-month">29</div>
+                <div class="calendar-day current-month">30</div>
+                <div class="calendar-day current-month">31</div>
+                <div class="calendar-day other-month">1</div>
+                <div class="calendar-day other-month">2</div>
+                <div class="calendar-day other-month">3</div>
+                <div class="calendar-day other-month">4</div>
+            </div>
+            
+            <!-- Dream previews for selected date -->
+            <div class="dream-preview-list">
+                <div class="preview-date">October 26, 2023</div>
+                
+                <!-- Dream card 1 -->
+                <div class="dream-card">
+                    <div class="dream-time">07:30</div>
+                    <div class="dream-title">Flying over the city</div>
+                    <div class="dream-preview">I dreamed that I could fly, soaring freely over a modern city. I could feel the wind on my face and see the traffic and pedestrians below. This feeling was very liberating and relaxing, as if all the pressure had disappeared.</div>
+                    <div class="dream-tags">
+                        <div class="dream-tag">Flying</div>
+                        <div class="dream-tag">City</div>
+                        <div class="dream-tag emotion-tag positive">
+                            <i class="fas fa-smile"></i>
+                            Positive
+                        </div>
+                        <div class="dream-tag">
+                            <i class="fas fa-check-circle"></i>
+                            Interpreted
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty state (hidden by default) -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-calendar-day"></i>
+                </div>
+                <div class="empty-title">No dreams on this date</div>
+                <div class="empty-text">Select a different date or record a new dream for today</div>
+                <div class="empty-button">Record Dream</div>
+            </div>
+        </div>
+        
+        <!-- Bottom tab bar -->
+        <div class="tab-bar">
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-book"></i></div>
+                <div>Dreams</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                <div>Tags</div>
+            </div>
+            <div class="tab-item active">
+                <div class="tab-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div>Calendar</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-chart-line"></i></div>
+                <div>Stats</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-cog"></i></div>
+                <div>Settings</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Home indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Calendar day click event
+            const calendarDays = document.querySelectorAll('.calendar-day');
+            const previewList = document.querySelector('.dream-preview-list');
+            const emptyState = document.querySelector('.empty-state');
+            const previewDate = document.querySelector('.preview-date');
+            
+            calendarDays.forEach(day => {
+                day.addEventListener('click', () => {
+                    // Remove selected class from all days
+                    calendarDays.forEach(d => d.classList.remove('selected'));
+                    
+                    // Add selected class to clicked day
+                    day.classList.add('selected');
+                    
+                    // Update preview date
+                    const monthName = document.querySelector('.month-title').textContent.split(' ')[0];
+                    previewDate.textContent = `${monthName} ${day.textContent}, 2023`;
+                    
+                    // Show empty state or preview list based on whether the day has dreams
+                    if (day.classList.contains('has-dream')) {
+                        previewList.style.display = 'block';
+                        emptyState.style.display = 'none';
+                    } else {
+                        previewList.style.display = 'none';
+                        emptyState.style.display = 'flex';
+                    }
+                });
+            });
+            
+            // Month navigation
+            const monthNavButtons = document.querySelectorAll('.month-nav-button');
+            const monthTitle = document.querySelector('.month-title');
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            let currentMonthIndex = 9; // October (0-based index)
+            
+            monthNavButtons.forEach((button, index) => {
+                button.addEventListener('click', () => {
+                    if (index === 0) {
+                        // Previous month
+                        currentMonthIndex = (currentMonthIndex - 1 + 12) % 12;
+                    } else {
+                        // Next month
+                        currentMonthIndex = (currentMonthIndex + 1) % 12;
+                    }
+                    
+                    monthTitle.textContent = `${months[currentMonthIndex]} 2023`;
+                });
+            });
+            
+            // Dream card click event
+            const dreamCards = document.querySelectorAll('.dream-card');
+            dreamCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // In a real app, navigate to dream detail page
+                    // window.location.href = 'dream-detail.html';
+                });
+            });
+            
+            // Bottom tab bar toggle
+            const tabItems = document.querySelectorAll('.tab-item');
+            tabItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    tabItems.forEach(tab => tab.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // In a real app, navigate to respective pages
+                    // const tabName = item.querySelector('div:last-child').textContent;
+                    // switch(tabName) {
+                    //     case 'Dreams': window.location.href = 'home.html'; break;
+                    //     case 'Tags': window.location.href = 'tags.html'; break;
+                    //     case 'Calendar': window.location.href = 'dream-calendar.html'; break;
+                    //     case 'Stats': window.location.href = 'statistics.html'; break;
+                    //     case 'Settings': window.location.href = 'settings.html'; break;
+                    // }
+                });
+            });
+            
+            // Empty state button click
+            const emptyButton = document.querySelector('.empty-button');
+            emptyButton.addEventListener('click', () => {
+                // In a real app, navigate to record dream page
+                // window.location.href = 'record-dream.html';
+            });
+        });
+    </script>
+</body>
+</html>

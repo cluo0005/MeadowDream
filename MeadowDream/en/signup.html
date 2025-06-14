@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .dark .status-bar {
+            color: white;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .signup-content {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+        }
+        
+        .page-title {
+            flex: 1;
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-right: 40px; /* Balance the back-button width */
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        .input-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #4A5568;
+        }
+        
+        .dark .input-label {
+            color: #A0AEC0;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background-color: #EDF2F7;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #2D3748;
+            border: none;
+            outline: none;
+        }
+        
+        .dark .input-field {
+            background-color: #2D3748;
+            color: #E2E8F0;
+        }
+        
+        .terms-section {
+            display: flex;
+            align-items: flex-start;
+            margin-top: 16px;
+            margin-bottom: 24px;
+        }
+        
+        .checkbox-container {
+            width: 22px;
+            height: 22px;
+            margin-right: 12px;
+            margin-top: 2px;
+        }
+        
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid #CBD5E0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+        }
+        
+        .checkbox.checked {
+            background-color: #5B7FFF;
+            border-color: #5B7FFF;
+        }
+        
+        .terms-text {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #718096;
+        }
+        
+        .dark .terms-text {
+            color: #A0AEC0;
+        }
+        
+        .terms-link {
+            color: #5B7FFF;
+            font-weight: 500;
+        }
+        
+        .signup-button {
+            width: 100%;
+            padding: 16px;
+            background-color: #5B7FFF;
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 24px;
+            box-shadow: 0 4px 6px -1px rgba(91, 127, 255, 0.2);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .dark .divider {
+            color: #A0AEC0;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #E2E8F0;
+        }
+        
+        .dark .divider::before,
+        .dark .divider::after {
+            background-color: #4A5568;
+        }
+        
+        .divider span {
+            padding: 0 16px;
+        }
+        
+        .social-signup {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            background-color: #EDF2F7;
+            color: #4A5568;
+        }
+        
+        .dark .social-button {
+            background-color: #2D3748;
+            color: #A0AEC0;
+        }
+        
+        .apple-button {
+            background-color: #000;
+            color: #FFF;
+        }
+        
+        .dark .apple-button {
+            background-color: #FFF;
+            color: #000;
+        }
+        
+        .google-button {
+            background-color: #FFF;
+            color: #EA4335;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .dark .google-button {
+            background-color: #2D3748;
+            color: #EA4335;
+        }
+        
+        .login-section {
+            text-align: center;
+            margin-top: 30px;
+            padding-bottom: 20px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .dark .login-section {
+            color: #A0AEC0;
+        }
+        
+        .login-link {
+            color: #5B7FFF;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Status bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="signup-content">
+        <div class="header">
+            <div class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="page-title">Create Account</div>
+        </div>
+        
+        <div class="form-section">
+            <div class="input-group">
+                <div class="input-label">Username</div>
+                <input type="text" class="input-field" placeholder="Enter username">
+            </div>
+            
+            <div class="input-group">
+                <div class="input-label">Email</div>
+                <input type="email" class="input-field" placeholder="your@email.com">
+            </div>
+            
+            <div class="input-group">
+                <div class="input-label">Password</div>
+                <input type="password" class="input-field" placeholder="At least 8 characters">
+            </div>
+            
+            <div class="input-group">
+                <div class="input-label">Confirm Password</div>
+                <input type="password" class="input-field" placeholder="Re-enter password">
+            </div>
+            
+            <div class="terms-section">
+                <div class="checkbox-container">
+                    <div class="checkbox" id="terms-checkbox">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+                <div class="terms-text">
+                    I have read and agree to the <span class="terms-link">Terms of Service</span> and <span class="terms-link">Privacy Policy</span>
+                </div>
+            </div>
+            
+            <div class="signup-button">Sign Up</div>
+        </div>
+        
+        <div class="divider">
+            <span>Or sign up with</span>
+        </div>
+        
+        <div class="social-signup">
+            <div class="social-button apple-button">
+                <i class="fab fa-apple"></i>
+            </div>
+            <div class="social-button google-button">
+                <i class="fab fa-google"></i>
+            </div>
+        </div>
+        
+        <div class="login-section">
+            Already have an account? <span class="login-link">Login now</span>
+        </div>
+    </div>
+    
+    <!-- Home indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        // Toggle dark/light mode (for demo)
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            
+            // Detect system color scheme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.classList.add('dark');
+            }
+            
+            // Checkbox toggle
+            const checkbox = document.getElementById('terms-checkbox');
+            checkbox.addEventListener('click', () => {
+                checkbox.classList.toggle('checked');
+            });
+            
+            // Sign up button click event
+            const signupButton = document.querySelector('.signup-button');
+            signupButton.addEventListener('click', () => {
+                // In a real app, validate registration and redirect to home
+                // window.location.href = 'home.html';
+            });
+            
+            // Login link click event
+            const loginLink = document.querySelector('.login-link');
+            loginLink.addEventListener('click', () => {
+                // In a real app, redirect to login page
+                // window.location.href = 'login.html';
+            });
+            
+            // Back button click event
+            const backButton = document.querySelector('.back-button');
+            backButton.addEventListener('click', () => {
+                // In a real app, go back to previous page
+                // window.history.back();
+            });
+        });
+    </script>
+</body>
+</html>

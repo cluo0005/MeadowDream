@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Dream List</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .dark .status-bar {
+            color: white;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+        }
+        
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .dark .header {
+            border-bottom-color: #4A5568;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+            margin-right: 8px;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .action-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+        }
+        
+        .filter-bar {
+            padding: 16px 20px;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .filter-bar::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .filter-chip {
+            padding: 8px 16px;
+            background-color: #EDF2F7;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4A5568;
+            white-space: nowrap;
+        }
+        
+        .dark .filter-chip {
+            background-color: #2D3748;
+            color: #A0AEC0;
+        }
+        
+        .filter-chip.active {
+            background-color: #5B7FFF;
+            color: white;
+        }
+        
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 20px 20px;
+        }
+        
+        .dream-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .dream-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .dark .dream-card {
+            background-color: #2D3748;
+        }
+        
+        .dream-date {
+            font-size: 12px;
+            color: #718096;
+            margin-bottom: 8px;
+        }
+        
+        .dark .dream-date {
+            color: #A0AEC0;
+        }
+        
+        .dream-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .dream-preview {
+            font-size: 14px;
+            color: #4A5568;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .dark .dream-preview {
+            color: #A0AEC0;
+        }
+        
+        .dream-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .dream-tag {
+            font-size: 12px;
+            padding: 4px 10px;
+            background-color: #EBF4FF;
+            color: #5B7FFF;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        
+        .dark .dream-tag {
+            background-color: #3182CE20;
+        }
+        
+        .emotion-tag {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .emotion-tag.positive {
+            background-color: #C6F6D5;
+            color: #38A169;
+        }
+        
+        .dark .emotion-tag.positive {
+            background-color: #38A16920;
+            color: #68D391;
+        }
+        
+        .emotion-tag.negative {
+            background-color: #FED7D7;
+            color: #E53E3E;
+        }
+        
+        .dark .emotion-tag.negative {
+            background-color: #E53E3E20;
+            color: #FC8181;
+        }
+        
+        .emotion-tag.neutral {
+            background-color: #E2E8F0;
+            color: #718096;
+        }
+        
+        .dark .emotion-tag.neutral {
+            background-color: #71809620;
+            color: #A0AEC0;
+        }
+        
+        .sort-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .sort-button {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 14px;
+            color: #5B7FFF;
+        }
+        
+        .sort-menu {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 180px;
+            z-index: 10;
+            display: none;
+        }
+        
+        .dark .sort-menu {
+            background-color: #2D3748;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        .sort-option {
+            padding: 12px 16px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .sort-option:not(:last-child) {
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .dark .sort-option:not(:last-child) {
+            border-bottom-color: #4A5568;
+        }
+        
+        .sort-option.active {
+            color: #5B7FFF;
+        }
+        
+        .empty-state {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            padding: 0 40px;
+        }
+        
+        .empty-icon {
+            font-size: 60px;
+            color: #CBD5E0;
+            margin-bottom: 20px;
+        }
+        
+        .dark .empty-icon {
+            color: #4A5568;
+        }
+        
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .empty-text {
+            font-size: 14px;
+            color: #718096;
+            line-height: 1.5;
+            margin-bottom: 24px;
+        }
+        
+        .dark .empty-text {
+            color: #A0AEC0;
+        }
+        
+        .empty-button {
+            padding: 12px 24px;
+            background-color: #5B7FFF;
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            background-color: white;
+            border-top: 1px solid #E2E8F0;
+        }
+        
+        .dark .tab-bar {
+            background-color: #2D3748;
+            border-top-color: #4A5568;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px 0;
+            color: #718096;
+            font-size: 10px;
+            width: 20%;
+        }
+        
+        .dark .tab-item {
+            color: #A0AEC0;
+        }
+        
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .tab-item.active {
+            color: #5B7FFF;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Status bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="page-title">Dream List</div>
+            </div>
+            <div class="header-actions">
+                <div class="sort-dropdown">
+                    <div class="sort-button">
+                        <span>Sort</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="sort-menu">
+                        <div class="sort-option active">
+                            <span>Newest first</span>
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="sort-option">
+                            <span>Oldest first</span>
+                        </div>
+                        <div class="sort-option">
+                            <span>Alphabetical</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="action-button">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="filter-bar">
+            <div class="filter-chip active">All Dreams</div>
+            <div class="filter-chip">Positive</div>
+            <div class="filter-chip">Negative</div>
+            <div class="filter-chip">Neutral</div>
+            <div class="filter-chip">Interpreted</div>
+            <div class="filter-chip">Uninterpreted</div>
+            <div class="filter-chip">This Month</div>
+            <div class="filter-chip">Last Month</div>
+        </div>
+        
+        <div class="content-area">
+            <div class="dream-list">
+                <!-- Dream card 1 -->
+                <div class="dream-card">
+                    <div class="dream-date">Today · 07:30</div>
+                    <div class="dream-title">Flying over the city</div>
+                    <div class="dream-preview">I dreamed that I could fly, soaring freely over a modern city. I could feel the wind on my face and see the traffic and pedestrians below. This feeling was very liberating and relaxing, as if all the pressure had disappeared.</div>
+                    <div class="dream-tags">
+                        <div class="dream-tag">Flying</div>
+                        <div class="dream-tag">City</div>
+                        <div class="dream-tag emotion-tag positive">
+                            <i class="fas fa-smile"></i>
+                            Positive
+                        </div>
+                        <div class="dream-tag">
+                            <i class="fas fa-check-circle"></i>
+                            Interpreted
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dream card 2 -->
+                <div class="dream-card">
+                    <div class="dream-date">Yesterday · 06:15</div>
+                    <div class="dream-title">Lost in the forest</div>
+                    <div class="dream-preview">I found myself in a dense forest, surrounded by tall trees with sunlight creating dappled shadows through the leaves. I didn't know where I was or which direction to go. I started feeling anxious, but suddenly saw a small path...</div>
+                    <div class="dream-tags">
+                        <div class="dream-tag">Forest</div>
+                        <div class="dream-tag">Lost</div>
+                        <div class="dream-tag emotion-tag neutral">
+                            <i class="fas fa-meh"></i>
+                            Neutral
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dream card 3 -->
+                <div class="dream-card">
+                    <div class="dream-date">July 15, 2023 · 08:20</div>
+                    <div class="dream-title">Late for exam</div>
+                    <div class="dream-preview">I dreamed I had to take an important exam, but couldn't find the exam room. I was running through the school hallways, time ticking away, my heart beating faster, sweat soaking my clothes. When I finally found the exam room, I discovered the exam was already over...</div>
+                    <div class="dream-tags">
+                        <div class="dream-tag">Exam</div>
+                        <div class="dream-tag">Anxiety</div>
+                        <div class="dream-tag emotion-tag negative">
+                            <i class="fas fa-frown"></i>
+                            Negative
+                        </div>
+                        <div class="dream-tag">
+                            <i class="fas fa-check-circle"></i>
+                            Interpreted
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dream card 4 -->
+                <div class="dream-card">
+                    <div class="dream-date">July 10, 2023 · 07:45</div>
+                    <div class="dream-title">Reunion with old friend</div>
+                    <div class="dream-preview">I dreamed of meeting an old friend I hadn't seen in years at an unfamiliar coffee shop. We talked about the past and shared our life experiences. The whole dream was filled with warmth and nostalgia, and I could still feel those emotions after waking up...</div>
+                    <div class="dream-tags">
+                        <div class="dream-tag">Friend</div>
+                        <div class="dream-tag">Reunion</div>
+                        <div class="dream-tag emotion-tag positive">
+                            <i class="fas fa-smile"></i>
+                            Positive
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dream card 5 -->
+                <div class="dream-card">
+                    <div class="dream-date">July 5, 2023 · 06:50</div>
+                    <div class="dream-title">Swimming in the ocean</div>
+                    <div class="dream-preview">I was swimming in a vast, crystal-clear ocean. The water was warm and I could see colorful fish swimming around me. I felt completely at peace, floating effortlessly with the gentle waves. The sky above was bright blue without a single cloud...</div>
+                    <div class="dream-tags">
+                        <div class="dream-tag">Ocean</div>
+                        <div class="dream-tag">Swimming</div>
+                        <div class="dream-tag emotion-tag positive">
+                            <i class="fas fa-smile"></i>
+                            Positive
+                        </div>
+                        <div class="dream-tag">
+                            <i class="fas fa-check-circle"></i>
+                            Interpreted
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Dream card 6 -->
+                <div class="dream-card">
+                    <div class="dream-date">June 28, 2023 · 05:15</div>
+                    <div class="dream-title">Falling from a building</div>
+                    <div class="dream-preview">I was standing on the roof of a very tall building, looking down at the city below. Suddenly, I lost my balance and started falling. The strange thing was that I wasn't scared - I felt like I was floating rather than falling. Just before hitting the ground...</div>
+                    <div class="dream-tags">
+                        <div class="dream-tag">Falling</div>
+                        <div class="dream-tag">Building</div>
+                        <div class="dream-tag emotion-tag neutral">
+                            <i class="fas fa-meh"></i>
+                            Neutral
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty state (hidden by default) -->
+            <div class="empty-state">
+                <div class="empty-icon">
+                    <i class="fas fa-filter"></i>
+                </div>
+                <div class="empty-title">No dreams match your filters</div>
+                <div class="empty-text">Try adjusting your filter settings or record more dreams</div>
+                <div class="empty-button">Clear Filters</div>
+            </div>
+        </div>
+        
+        <!-- Bottom tab bar -->
+        <div class="tab-bar">
+            <div class="tab-item active">
+                <div class="tab-icon"><i class="fas fa-book"></i></div>
+                <div>Dreams</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-tag"></i></div>
+                <div>Tags</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div>Calendar</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-chart-line"></i></div>
+                <div>Stats</div>
+            </div>
+            <div class="tab-item">
+                <div class="tab-icon"><i class="fas fa-cog"></i></div>
+                <div>Settings</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Home indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        // Toggle dark/light mode (for demo)
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            
+            // Detect system color scheme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.classList.add('dark');
+            }
+            
+            // Sort dropdown toggle
+            const sortButton = document.querySelector('.sort-button');
+            const sortMenu = document.querySelector('.sort-menu');
+            let sortMenuOpen = false;
+            
+            sortButton.addEventListener('click', () => {
+                if (sortMenuOpen) {
+                    sortMenu.style.display = 'none';
+                    sortMenuOpen = false;
+                } else {
+                    sortMenu.style.display = 'block';
+                    sortMenuOpen = true;
+                }
+            });
+            
+            // Sort options
+            const sortOptions = document.querySelectorAll('.sort-option');
+            sortOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    sortOptions.forEach(opt => {
+                        opt.classList.remove('active');
+                        opt.querySelector('i')?.remove();
+                    });
+                    option.classList.add('active');
+                    if (!option.querySelector('i')) {
+                        const checkIcon = document.createElement('i');
+                        checkIcon.className = 'fas fa-check';
+                        option.appendChild(checkIcon);
+                    }
+                    sortMenu.style.display = 'none';
+                    sortMenuOpen = false;
+                });
+            });
+            
+            // Filter chips
+            const filterChips = document.querySelectorAll('.filter-chip');
+            filterChips.forEach(chip => {
+                chip.addEventListener('click', () => {
+                    if (chip.textContent === 'All Dreams') {
+                        filterChips.forEach(c => c.classList.remove('active'));
+                        chip.classList.add('active');
+                        document.querySelector('.dream-list').style.display = 'flex';
+                        document.querySelector('.empty-state').style.display = 'none';
+                    } else {
+                        const allChip = document.querySelector('.filter-chip.active');
+                        if (allChip.textContent === 'All Dreams') {
+                            allChip.classList.remove('active');
+                        }
+                        chip.classList.toggle('active');
+                        
+                        // Show empty state randomly for demo purposes
+                        const activeFilters = document.querySelectorAll('.filter-chip.active');
+                        if (activeFilters.length > 2 && Math.random() > 0.5) {
+                            document.querySelector('.dream-list').style.display = 'none';
+                            document.querySelector('.empty-state').style.display = 'flex';
+                        } else {
+                            document.querySelector('.dream-list').style.display = 'flex';
+                            document.querySelector('.empty-state').style.display = 'none';
+                        }
+                    }
+                });
+            });
+            
+            // Empty state button
+            const emptyButton = document.querySelector('.empty-button');
+            emptyButton.addEventListener('click', () => {
+                filterChips.forEach(c => c.classList.remove('active'));
+                document.querySelector('.filter-chip').classList.add('active');
+                document.querySelector('.dream-list').style.display = 'flex';
+                document.querySelector('.empty-state').style.display = 'none';
+            });
+            
+            // Dream card click event
+            const dreamCards = document.querySelectorAll('.dream-card');
+            dreamCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    // In a real app, navigate to dream detail page
+                    // window.location.href = 'dream-detail.html';
+                });
+            });
+            
+            // Back button
+            const backButton = document.querySelector('.back-button');
+            backButton.addEventListener('click', () => {
+                // In a real app, go back to previous page
+                // window.location.href = 'home.html';
+            });
+            
+            // Search button
+            const searchButton = document.querySelector('.action-button');
+            searchButton.addEventListener('click', () => {
+                // In a real app, navigate to search page
+                // window.location.href = 'dream-search.html';
+            });
+            
+            // Bottom tab bar toggle
+            const tabItems = document.querySelectorAll('.tab-item');
+            tabItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    tabItems.forEach(tab => tab.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    // In a real app, navigate to respective pages
+                    // const tabName = item.querySelector('div:last-child').textContent;
+                    // switch(tabName) {
+                    //     case 'Dreams': window.location.href = 'home.html'; break;
+                    //     case 'Tags': window.location.href = 'tags.html'; break;
+                    //     case 'Calendar': window.location.href = 'dream-calendar.html'; break;
+                    //     case 'Stats': window.location.href = 'statistics.html'; break;
+                    //     case 'Settings': window.location.href = 'settings.html'; break;
+                    // }
+                });
+            });
+            
+            // Close sort menu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (sortMenuOpen && !event.target.closest('.sort-dropdown')) {
+                    sortMenu.style.display = 'none';
+                    sortMenuOpen = false;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

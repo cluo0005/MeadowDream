@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .dark .status-bar {
+            color: white;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .login-content {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+            padding: 20px;
+        }
+        
+        .logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: white;
+            border-radius: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-inner {
+            font-size: 40px;
+            background: linear-gradient(135deg, #5B7FFF 0%, #A78BFA 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .app-name {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        .input-label {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #4A5568;
+        }
+        
+        .dark .input-label {
+            color: #A0AEC0;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            background-color: #EDF2F7;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #2D3748;
+            border: none;
+            outline: none;
+        }
+        
+        .dark .input-field {
+            background-color: #2D3748;
+            color: #E2E8F0;
+        }
+        
+        .forgot-password {
+            text-align: right;
+            font-size: 14px;
+            color: #5B7FFF;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+        
+        .login-button {
+            width: 100%;
+            padding: 16px;
+            background-color: #5B7FFF;
+            color: white;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 24px;
+            box-shadow: 0 4px 6px -1px rgba(91, 127, 255, 0.2);
+        }
+        
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #718096;
+            font-size: 14px;
+        }
+        
+        .dark .divider {
+            color: #A0AEC0;
+        }
+        
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: #E2E8F0;
+        }
+        
+        .dark .divider::before,
+        .dark .divider::after {
+            background-color: #4A5568;
+        }
+        
+        .divider span {
+            padding: 0 16px;
+        }
+        
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        
+        .social-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            background-color: #EDF2F7;
+            color: #4A5568;
+        }
+        
+        .dark .social-button {
+            background-color: #2D3748;
+            color: #A0AEC0;
+        }
+        
+        .apple-button {
+            background-color: #000;
+            color: #FFF;
+        }
+        
+        .dark .apple-button {
+            background-color: #FFF;
+            color: #000;
+        }
+        
+        .google-button {
+            background-color: #FFF;
+            color: #EA4335;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .dark .google-button {
+            background-color: #2D3748;
+            color: #EA4335;
+        }
+        
+        .signup-section {
+            text-align: center;
+            margin-top: auto;
+            padding: 20px 0;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .dark .signup-section {
+            color: #A0AEC0;
+        }
+        
+        .signup-link {
+            color: #5B7FFF;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Status bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="login-content">
+        <div class="logo-section">
+            <div class="logo">
+                <div class="logo-inner">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+            <div class="app-name">Meadow Dream</div>
+        </div>
+        
+        <div class="form-section">
+            <div class="input-group">
+                <div class="input-label">Email</div>
+                <input type="email" class="input-field" placeholder="your@email.com">
+            </div>
+            
+            <div class="input-group">
+                <div class="input-label">Password</div>
+                <input type="password" class="input-field" placeholder="••••••••">
+                <div class="forgot-password">Forgot password?</div>
+            </div>
+            
+            <div class="login-button">Login</div>
+        </div>
+        
+        <div class="divider">
+            <span>Or login with</span>
+        </div>
+        
+        <div class="social-login">
+            <div class="social-button apple-button">
+                <i class="fab fa-apple"></i>
+            </div>
+            <div class="social-button google-button">
+                <i class="fab fa-google"></i>
+            </div>
+        </div>
+        
+        <div class="signup-section">
+            Don't have an account? <span class="signup-link">Sign up now</span>
+        </div>
+    </div>
+    
+    <!-- Home indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        // Toggle dark/light mode (for demo)
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            
+            // Detect system color scheme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.classList.add('dark');
+            }
+            
+            // Login button click event
+            const loginButton = document.querySelector('.login-button');
+            loginButton.addEventListener('click', () => {
+                // In a real app, validate login and redirect to home
+                // window.location.href = 'home.html';
+            });
+            
+            // Sign up link click event
+            const signupLink = document.querySelector('.signup-link');
+            signupLink.addEventListener('click', () => {
+                // In a real app, redirect to signup page
+                // window.location.href = 'signup.html';
+            });
+        });
+    </script>
+</body>
+</html>
