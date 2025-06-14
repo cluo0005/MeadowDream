@@ -1,4 +1,144 @@
-# 产品路线图 (Roadmap) - Dream Interpreter
+# Product Roadmap - Meadow Dream
+
+## 1. Roadmap Overview
+
+This document outlines the development path and feature evolution of the "Meadow Dream" app from MVP to future iterations. The roadmap is designed around core user needs (especially **Wellness and Positive Psychological Guidance**), market opportunities, and technical feasibility (**iOS Swift first, Firebase integration**), while maintaining flexibility to adapt to changes.
+
+## 2. Versioning Strategy
+
+- **MVP (Minimum Viable Product):** Quickly validate core value, focusing on **iOS platform** dream recording (**text and voice input**), **manually triggered basic AI interpretation** (including **initial positive guidance**), **basic tag features** and user feedback mechanism, as well as **Firebase user authentication**.
+- **V1.1 (Iterative Optimization & Wellness Enhancement):** Based on MVP feedback, optimize core experience, enhance interpretation accuracy and **effectiveness of positive guidance**, improve **tag library management**, and boost **speech-to-text** accuracy and usability.
+- **V1.2 (Feature Expansion & Personalization):** Introduce more comprehensive dream guidance and prediction, explore deeper personalized interpretation (e.g., pattern recognition based on user history), and strengthen **Wellness** features.
+- **Future Versions:** Explore deeper AI capabilities, richer interaction forms, potential monetization paths (such as advanced guidance content subscriptions), and adaptation to other platforms.
+
+## 3. Detailed Version Plans
+
+### 3.1 MVP Version (Estimated X Month - Y Month)
+
+- **Core Goal:** Validate user acceptance and basic needs for the core flow of "**convenient recording (including voice) + manual AI interpretation (with positive guidance) + tag management**" on **iOS**, and ensure stable operation of the **Firebase user system**.
+- **Main Features:**
+    - **iOS app framework (Swift)**
+    - **Firebase user registration & login (email/password)**
+    - Dream recording:
+        - Text input
+        - **Voice input and background speech-to-text (iOS native SFSpeechRecognizer)**
+        - Emotion selection
+        - **Basic tag features (select preset tags, create simple custom tags)**
+    - **Manually triggered AI dream interpretation:**
+        - Based on general model, provide symbolic meaning and emotion analysis
+        - **Initial positive psychological guidance content**
+    - View dream history list (sorted by time)
+    - Simple feedback on interpretation results (e.g., "Helpful"/"Inaccurate")
+    - Basic settings (e.g., notification toggle)
+- **Metrics:** **iOS downloads**, user registrations, daily active users, number of dream records (text/voice), **tag usage frequency**, AI interpretation usage rate, **positive guidance feedback**, quantity and quality of user feedback.
+- **Estimated Timeline:** 6-8 weeks development (iOS native, including Firebase and speech features), 2 weeks testing and launch prep.
+
+### 3.2 V1.1 Version (Estimated Y+1 Month - Z Month)
+
+- **Core Goal:** Improve **AI interpretation quality and positive guidance effectiveness**, enhance **tag library management**, optimize overall UX, and increase user stickiness.
+- **Main Features:**
+    - AI interpretation model iteration (based on MVP feedback, improve accuracy, personalization, and **depth/targeting of positive guidance**)
+    - **Comprehensive tag library management system:**
+        - **View, edit, delete custom tags**
+        - **Tag search**
+        - **(Optional) Expand and categorize system preset tag library**
+    - Optimize dream recording flow (e.g., smarter tag recommendations based on user history)
+    - Dream calendar view
+    - Simple dream data statistics (e.g., emotion distribution, common tags, **Wellness-related metrics**)
+    - Allow users to edit/delete recorded dreams
+    - **Optimize voice input experience (e.g., resume recording, edit transcription)**
+- **Metrics:** Improved interpretation satisfaction (especially positive guidance), **increased tag feature usage**, higher user retention, increased core feature usage time.
+- **Estimated Timeline:** 4-5 weeks development, 1-2 weeks testing.
+
+### 3.3 V1.2 Version (Estimated Z+1 Month - W Month)
+
+- **Core Goal:** Enrich **dream guidance and prediction features**, deepen personalization, and fully enhance the product's **Wellness value**.
+- **Main Features:**
+    - **Enhanced dream guidance:**
+        - **Provide more specific action suggestions or reflection exercises (Wellness exercises) based on interpretation results**
+        - **(Explore) Push positive content or guidance based on user emotional state (with user consent)**
+    - **(Explore) Initial dream trend prediction:** Analyze long-term records and tags to identify potential emotional fluctuations or recurring dream patterns, and provide alerts or positive coping suggestions.
+    - Advanced dream pattern analysis (e.g., recurring themes, emotion fluctuation correlations, **integrated with Wellness goals**)
+    - (Optional) Dream sharing feature (optionally anonymous, emphasizing positive feedback and supportive interaction)
+    - More comprehensive personalization settings (e.g., customized positive guidance preferences)
+- **Metrics:** New feature usage, **user evaluation of guidance and prediction**, self-reported Wellness improvement, user interaction metrics (e.g., sharing count).
+- **Estimated Timeline:** 5-7 weeks development, 2 weeks testing.
+
+### 3.4 Future Versions (After W Month)
+
+- **Directions:**
+    - **Continuous AI evolution:** More precise personalized interpretation, understanding more complex dream metaphors, integrating psychological theory for more professional analysis, **deepen guidance and prediction accuracy/effectiveness**.
+    - **Multi-dimensional interaction:** Dream visualization, **more natural voice-based AI interpretation**, sleep quality analysis and dream correlation using biometric data (with user consent and hardware support).
+    - **Wellness ecosystem integration:** Consider integration or cooperation with other Wellness apps/services (e.g., meditation, mindfulness).
+    - **(Careful evaluation) Cross-platform support:** After iOS is stable/mature, evaluate expansion to Android/other platforms.
+    - **Business model deepening:** Explore more Wellness-related value-added services, such as advanced personalized guidance plans, secure professional counselor connections (with strict vetting and compliance). 
+
+## 4. Feature Priority Matrix
+
+| P0 (Core, MVP must-have) | P1 (Important, next iterations) | P2 (Desired, resource/feedback dependent) |
+|---|---|---|
+| **iOS app framework (Swift)** | AI interpretation model optimization (incl. positive guidance) | Advanced dream pattern analysis (with Wellness) |
+| **Firebase user registration/login** | **Comprehensive tag library management** | (Explore) Dream trend prediction |
+| **Dream text recording** | Dream calendar view | Dream sharing (emphasizing positive interaction) |
+| **Dream voice input & speech-to-text** | Simple dream data stats (Wellness metrics) | (Explore) Emotion-based positive content push |
+| **Basic tag features** | Edit/delete dreams | Voice-based AI interpretation (more natural) |
+| **Manual AI interpretation (with initial positive guidance)** | **Optimize voice input experience** | (Careful eval) Android support |
+| View dream history | Smarter tag recommendations | Professional counselor integration (high bar) |
+| Interpretation feedback |  |  |
+| Basic settings |  |  |
+
+## 5. Detailed Timeline (Milestones)
+
+- **MVP Version (iOS - Meadow Dream, ~6-8 weeks dev + 2 weeks testing):**
+    - Week 1: Environment setup (iOS, Swift, Firebase), detailed design (UI/UX draft, tech architecture confirmation).
+    - Weeks 2-3: Firebase auth module dev & test, basic dream recording (text input, emotion selection, basic tag model).
+    - Weeks 4-5: **Voice input & speech-to-text dev/integration (SFSpeechRecognizer)**, manual AI interpretation module (connect initial model, design result UI).
+    - Week 6: **Basic tag library dev (preset selection, custom creation)**, dream history list, settings & feedback UI.
+    - Weeks 7-8: Full feature integration, performance optimization, UI polish, internal testing & bug fixing.
+    - Weeks 9-10: Beta test (small user group), adjust per feedback, App Store prep & submission.
+- **V1.1 Version (4-5 weeks dev + 1-2 weeks testing after MVP):**
+    - Requirements gathering & design (parallel or slightly ahead, focus on AI model iteration and tag library UI).
+    - **AI interpretation & positive guidance iteration.**
+    - **Comprehensive tag library management dev.**
+    - Voice input optimization, other feature iterations.
+    - Testing & release.
+- **V1.2 Version (5-7 weeks dev + 2 weeks testing after V1.1):**
+    - Requirements gathering & design (parallel or slightly ahead, focus on dream guidance/prediction and personalized Wellness features).
+    - **Enhanced dream guidance & initial prediction dev.**
+    - Other feature iterations & enhancements.
+    - Testing & release.
+
+## 6. Resource Planning (Initial Recommendations)
+
+- **Product Team:** Product Manager (1), UI/UX Designer (1)
+- **Dev Team (initially iOS-focused):**
+    - **iOS Engineer (Swift, 1-2, needs Firebase & speech experience)**
+    - **AI/Algorithm Engineer (1, for interpretation model & positive guidance logic, can partly use 3rd-party APIs)**
+    - (Optional for MVP, recommended after V1.1) Backend Engineer (1, if Firebase can't cover all backend logic or for future needs)
+- **QA Team:** Test Engineer (1, iOS testing experience)
+- **Ops Team (initially can be shared):** Marketing (iOS user focus), User Ops (feedback & early Wellness community)
+- **Time Investment:**
+    - MVP: ~12 weeks (3 months)
+    - Each iteration (V1.1, V1.2): 8-12 weeks
+
+## 7. Risk Management
+
+- **Market Risks:**
+    - **Intense iOS competition:** Many diary, emotion management, and some dream apps in App Store. (Mitigation: **Differentiate with "Wellness + Positive Guidance"**, deliver refined iOS native UX, target users precisely.)
+    - Slow user growth, ineffective channels. (Mitigation: Refined ops, App Store Optimization (ASO), content marketing (blog/social media on positive psychology), KOL partnerships.)
+- **Product Risks:**
+    - **AI interpretation & guidance may underwhelm:** Users may find interpretations forced or guidance vague. (Mitigation: Ongoing algorithm investment, **work with psychology experts on guidance**, strong feedback loop, set expectations, stress AI is assistive not absolute truth.)
+    - **Speech-to-text accuracy/UX issues:** Noise, accents may affect accuracy. (Mitigation: Use mature iOS speech engine, provide editing, guide users to quiet environments.)
+    - User privacy leak risk (Firebase data). (Mitigation: Strict Firebase security rules, follow Apple privacy, transparent policy, regular audits.)
+- **Tech Risks:**
+    - **AI model training/deployment complex, costly:** Especially for personalization and deep guidance. (Mitigation: Start with mature 3rd-party NLP/emotion APIs, gradually build core logic/knowledge base; Firebase ML Kit can help.)
+    - **Swift/iOS tech stack mastery:** Team must have relevant experience. (Mitigation: Hire experienced iOS devs, encourage learning/sharing.)
+- **Resource Risks:**
+    - Hard to hire/retain key talent (esp. AI, experienced Swift devs). (Mitigation: Competitive pay/benefits, growth opportunities, positive team culture.)
+    - Funding shortfall. (Mitigation: Clear business model, control MVP costs, seek funding after core value validated.) 
+    
+
+# 产品路线图 (Roadmap) - Meadow Dream 
 
 ## 1. 路线图概述
 

@@ -1,4 +1,611 @@
-# 产品需求文档 (PRD) - Dream Interpreter
+# Product Requirements Document (PRD) - Meadow Dream
+
+## 1. Document Information
+
+### 1.1 Version History
+
+| Version | Revision Date | Author      | Description         |
+| ------- | -------------| ----------- | ------------------ |
+| 0.1     | 2025-06-13    | Product Manager | Initial draft      |
+
+### 1.2 Purpose
+
+This document aims to clarify the product requirements for the "Dream Interpreter" mobile application, serving as the basis for product design, development, testing, and operations, ensuring all parties have a unified understanding and goal for the product.
+
+### 1.3 Related Documents
+
+- [Product Roadmap](./Roadmap.md)
+- [User Story Map](./User_Story_Map.md)
+- [Metrics Framework](./Metrics_Framework.md)
+
+## 2. Product Overview
+
+### 2.1 Product Name & Positioning
+
+- **Product Name:** Meadow Dream
+- **Positioning:** An iOS mobile app that helps users record, analyze, and understand dreams, providing personalized interpretations, positive psychological guidance, and wellness support.
+
+### 2.2 Vision & Mission
+
+- **Vision:** To become a reliable companion for users to explore their subconscious, promote self-awareness, guide positive mindsets, and enhance overall wellness.
+- **Mission:** Through convenient dream recording, professional AI interpretation, and positive dream guidance and prediction, help users gain valuable insights from their dreams and move towards a more positive psychological state.
+
+### 2.3 Value Proposition & Unique Selling Points (USP)
+- **Core Value:** By offering convenient recording (text and **voice**), professional AI interpretation (**manual trigger**), **wellness-focused positive guidance**, and personalized **tag management**, help users explore the mysteries of dreams, understand subconscious messages, achieve personal growth, and enhance well-being.
+- **Unique Selling Points:**
+    - **Deeply Personalized Interpretation & Guidance:** Combines user emotions, tags, and optional real-life context to provide analysis beyond generic dream dictionaries, and proactively offers positive psychological support and actionable advice when needed, promoting mental health.
+    - **Efficient Dream Recording:** Supports text and **speech-to-text** input, with a **tag library** for quick marking, making it easy to capture every dream detail.
+    - **User-Controlled Interpretation Timing:** Dream interpretation is **entirely user-triggered**, giving users full privacy and autonomy.
+    - **Focus on Positive Growth (Wellness):** Emphasizes drawing wisdom from dreams and using positive guidance to improve mood and quality of life.
+    - **Secure & Reliable User System:** Uses **Firebase** for authentication and data management, ensuring user data security.
+    - **User-Friendly Experience:** Simple, intuitive UI design and smooth recording/interactions.
+    - **Continuously Learning AI:** Interpretation model is optimized based on user feedback, becoming more personalized over time.
+
+- **Target Platform:** **iOS (Swift)**
+
+### 2.5 Core Product Assumptions
+
+- Users are curious about their dreams and want to understand their meanings.
+- Users are willing to record and (optionally) share their dreams via a mobile app.
+- Effective dream interpretation can help users relieve confusion, gain inspiration, or receive emotional support.
+
+### 2.6 Business Model Overview (if applicable)
+
+- **Freemium Model:**
+    - **Free Features:**
+        - Basic dream recording (with daily or total limits).
+        - Basic dream interpretation using a general dictionary or basic algorithm (with daily limits).
+        - Dream calendar and basic statistics.
+    - **Paid Premium Services (via subscription):**
+        - Unlimited dream recording.
+        - Advanced/deep dream interpretation (using more complex AI models, multi-dimensional analysis, personalized interpretation).
+        - Detailed dream pattern analysis reports (e.g., emotional trends, common themes, symbol associations).
+        - Voice-to-text dream recording.
+        - Export dream data.
+        - Remove in-app ads (if free version contains ads).
+        - (Optional) Initial connection or discounts with professional counselors.
+- **Light Advertising (optional, for free users):** Display a small number of ads in non-core areas (e.g., bottom of interpretation results, settings page) as supplementary income. Must be carefully designed to avoid user annoyance.
+- **One-Time Purchases (optional, as a supplement to subscription):** For example, purchase deep interpretation packs for specific themes, or unlock specific advanced feature modules.
+
+## 3. User Research
+
+### 3.1 Target User Profile (Detailed)
+
+#### 3.1.1 Demographics
+
+- **Age:** Primarily 18-45, covering young and middle-aged users interested in self-exploration and psychological growth.
+- **Gender:** Slightly more female users, but attractive to both genders.
+- **Education:** Mostly college-educated and above, open to new things, and willing to use mobile apps to solve problems or obtain information.
+- **Occupation:** Students, white-collar workers, freelancers, creative professionals, psychology enthusiasts, etc., with some leisure time for self-reflection and journaling.
+- **Location:** Mainly urban users, with high interest in mental health and personal growth.
+
+#### 3.1.2 Behavioral Habits & Preferences
+
+- **Tech Usage:** Proficient with smartphones and various apps, with high expectations for well-designed, smooth experiences.
+- **Information Acquisition:** Used to getting information online, interested in psychology, astrology, divination, personal growth, etc.
+- **Social Media:** May be active on social media, but prefer to record and interpret private dreams in a secure environment; willingness to share varies.
+- **Lifestyle:** Value quality of life and spiritual world, willing to pay for valuable knowledge or services.
+- **Dream Interpretation Habits:** May have tried searching online, reading books, or asking others for dream interpretation, but lack systematic, convenient, and private tools.
+
+#### 3.1.3 Core Needs & Pain Points
+
+- **Core Needs:**
+    - Understand what their strange dreams mean.
+    - Learn about subconscious thoughts, worries, or desires through dreams.
+    - Receive emotional comfort, inspiration, or guidance.
+    - Record important or interesting dreams to avoid forgetting.
+    - Find a private and convenient way to explore their inner world.
+- **Pain Points:**
+    - Dreams are fleeting and details are quickly forgotten after waking, making effective recording difficult.
+    - Online dream interpretation information is messy and inconsistent in quality, lacking authority and personalization.
+    - Sharing private dreams with others can feel awkward or unsafe.
+    - Traditional dream books are inconvenient and static, lacking interactivity.
+    - Repeated dreams can cause confusion or anxiety, with no clear way to address them.
+
+#### 3.1.4 Motivations & Goals
+
+- **Self-Exploration & Awareness:** Want to understand their inner world, subconscious needs, and unnoticed emotions through dreams.
+- **Seeking Answers & Guidance:** Hope to gain insights or direction from dreams for life's confusions, stress, or important decisions.
+- **Emotional Expression & Comfort:** Use dreams as an outlet for emotions, processing complex feelings through recording and interpretation.
+- **Curiosity & Fun:** Simply curious about the mysterious world of dreams and enjoy the exploration and interpretation process.
+- **Personal Growth:** Use dream analysis as a tool for self-improvement, promoting psychological maturity and coping skills.
+
+### 3.2 User Scenario Analysis
+
+#### 3.2.1 Core Usage Scenarios
+- **Scenario 1: Quickly record a fresh dream (voice first)**
+    - User A wakes up and remembers a vivid dream. She quickly opens the Meadow Dream app and uses **voice input** to record key details, characters, and emotions. The system automatically converts speech to text. She may then select or add core tags from the **tag library**. She wants to capture as much detail as possible before the memory fades.
+- **Scenario 2: Review and refine dream before bed (text editing & tag refinement)**
+    - User B likes to review and organize thoughts before bed. If he recorded a dream earlier (possibly by voice), he opens the app, edits and refines the text, selects more accurate tags from the **tag library** or creates new custom tags, and considers whether to **manually trigger AI interpretation**.
+- **Scenario 3: Seek interpretation and positive guidance for confusing dreams (manual AI, wellness focus)**
+    - User C has been having a recurring, anxiety-inducing dream. He finds the record in the app and **manually clicks "Interpret Dream."** He expects the AI analysis to reveal possible meanings and **provide positive psychological guidance and coping strategies to help relieve anxiety and achieve wellness goals.**
+- **Scenario 4: Self-exploration and growth through dreams (interpretation + reflection)**
+    - User D is interested in psychology and self-exploration. She regularly records and interprets her dreams, using the AI's analysis (including positive guidance) as a reference, reflecting with her own life experience to understand subconscious signals and promote personal growth and emotional management.
+- **Scenario 5: Manage personal tag library & review**
+    - After using the app for a while, User E wants to organize her dream tags. She enters the **tag library management** interface, reviews system and custom tags, and may edit or delete unused custom tags, making the tag system more personal and convenient for reviewing and finding specific dream themes.
+
+#### 3.2.2 Edge Case Scenarios
+
+1.  **Quickly capture inspiration**
+    - User may want to quickly record a dream-inspired idea while awake.
+2.  **Share with counselor (user-initiated, if desired)**
+    - If in therapy, user may want to export or screenshot dream records to share with a counselor.
+3.  **Pure entertainment**
+    - Some users may use dream interpretation as a fun pastime, not for self-exploration.
+4.  **Learn about dream psychology**
+    - User may want to learn more about dream psychology through the app.
+
+### 3.3 User Research Insights (if applicable)
+
+*(To be supplemented)*
+
+## 4. Market & Competitive Analysis
+
+### 4.1 Market Size & Growth Forecast
+
+- **Mental health market is growing:** Globally, attention to mental health is increasing, expanding the market for related products and services. Dream interpretation, as a branch of psychological exploration, benefits from this trend.
+- **Mobile health app adoption:** Users are increasingly using mobile apps for health management, including mental health support. Dream apps have room for growth as a niche category.
+- **Personalization demand:** Users want less generic information and more personalized, customized content and services, creating opportunities for smart, personalized dream interpretation apps.
+- *Specific market data should be supplemented with third-party research reports.*
+
+### 4.2 Industry Trends
+
+- **AI empowerment:** AI (especially NLP and ML) enables smarter, more efficient dream interpretation through text analysis, emotion recognition, and pattern matching.
+- **Data privacy & ethics:** As data use deepens, users are more concerned about privacy. Dream apps must prioritize data security and ethical standards.
+- **Content + service integration:** Pure tool apps face fierce competition; combining quality content (e.g., psychology education, dream stories), community interaction, or professional counseling increases user stickiness and value.
+- **Balance of science & fun:** Users want dream interpretation to have scientific basis but also enjoy the fun and inspiration of exploration.
+
+### 4.3 Competitive Landscape
+
+#### 4.3.1 Direct Competitors
+
+*(Research on mainstream dream apps needed, e.g., traditional Chinese dream dictionary apps, foreign apps based on psychology, etc. Analyze their strengths, weaknesses, main features, user reviews, business models, etc.)*
+
+- **Example Competitor A (Name):**
+    - **Strengths:** Large user base, broad content coverage (many traditional dream entries).
+    - **Weaknesses:** Rigid interpretations, lack of personalization, outdated UI/UX, many ads.
+    - **Pricing:** Free + ads / VIP ad removal.
+    - **Features:** Keyword search for dream interpretation.
+- **Example Competitor B (Name):**
+    - **Strengths:** Modern UI, may include some psychology concepts, more flexible interpretations.
+    - **Weaknesses:** Smaller user base, limited AI, insufficient deep personalization.
+    - **Pricing:** Free trial + subscription.
+    - **Features:** Dream journal, emotion tracking.
+
+#### 4.3.2 Indirect Competitors
+
+- **General journaling apps:** Some users use general journaling apps for dreams, but lack professional interpretation features.
+- **Counseling platforms/services:** Offer more professional support but are less convenient and more expensive than apps.
+- **Search engines/online dream sites:** Traditional channels for dream info, but quality varies, lacks privacy and ongoing record-keeping.
+- **Divination/astrology apps:** Satisfy curiosity about the mysterious and future, with some overlap in user psychological needs.
+
+### 4.4 Competitor Feature Comparison Matrix
+
+| Feature                | Dream Interpreter (This Product) | Competitor A | Competitor B | Competitor C |
+|------------------------|----------------------------------|--------------|--------------|--------------|
+| Dream Recording        | Text, voice, tags, emotions      | Text         | Text, emotion| ...          |
+| Interpretation Engine  | AI, multi-dimensional, personalized | Dictionary match | Basic algorithm | ...      |
+| Personalized Analysis  | Yes                              | No           | Limited      | ...          |
+| Dream Pattern Analysis | Yes (advanced)                   | No           | No           | ...          |
+| Privacy Emphasis       | High                             | Average      | Average      | ...          |
+| Community Interaction  | Planned (future)                 | None         | Possible     | ...          |
+| Business Model         | Freemium (subscription)          | Ads          | Subscription | ...          |
+
+## 5. Product Feature Requirements
+
+### 5.1 Feature Architecture & Module Breakdown
+
+```mermaid
+graph TD
+    A[Dream Interpreter App] --> B(User Account Module);
+    A --> C(Dream Recording Module);
+    A --> D(Dream Interpretation Module);
+    A --> E(My Dreams Management Module);
+    A --> F(Data & Statistics Module);
+    A --> G(Settings & Help Module);
+    A --> H(Advanced Features Module);
+
+    B --> B1(Sign Up);
+    B --> B2(Login);
+    B --> B3(Account Settings);
+    B --> B4(Profile Management);
+
+    C --> C1(New Dream Record);
+    C --> C2(Text Input);
+    C --> C3(Voice-to-Text Input);
+    C --> C4(Emotion Tagging);
+    C --> C5(Tag Addition);
+    C --> C6(Dream Date/Time Selection);
+
+    D --> D1(Request Interpretation);
+    D --> D2(AI Interpretation Engine);
+    D --> D3(Multi-dimensional Analysis);
+    D --> D4(Interpretation Display);
+    D --> D5(User Feedback);
+    D --> D6(Related Symbol/Theme Reading);
+
+    E --> E1(Dream List);
+    E --> E2(Dream Calendar View);
+    E --> E3(Search & Filter);
+    E --> E4(Edit/Delete Dream);
+    E --> E5(Favorite Dreams/Interpretations);
+
+    F --> F1(Basic Dream Statistics);
+    F --> F2(Dream Pattern Analysis - Advanced);
+    F --> F3(Emotion Trend Chart - Advanced);
+
+    G --> G1(Notification Settings);
+    G --> G2(Privacy Settings);
+    G --> G3(Help Center/FAQ);
+    G --> G4(About Us);
+    G --> G5(Feedback & Suggestions);
+
+    H --> H1(Subscription Management);
+    H --> H2(Unlock Advanced Interpretation);
+    H --> H3(Data Export - Advanced);
+    H --> H4(Professional Consultation Entry - Optional Future);
+```
+
+**Module Descriptions:**
+
+- **User Account Module:** Handles user authentication and management.
+- **Dream Recording Module:** Provides convenient dream input features.
+- **Dream Interpretation Module:** Core feature, analyzes and interprets user-recorded dreams.
+- **My Dreams Management Module:** Center for users to view, manage, and review recorded dreams.
+- **Data & Statistics Module:** Offers users statistics and pattern analysis of their dreams.
+- **Settings & Help Module:** Provides app settings and user support.
+- **Advanced Features Module:** Houses features unlocked via paid subscription.
+
+### 5.2 Core Feature Details
+
+#### 5.2.1 Dream Recording & Management
+- **Feature Description (User Story Format):**
+    - As a user, I want to record my dreams via text or **voice input (auto-converted to text)**, including related emotions and key elements, so I can review and analyze them later.
+    - As a user, I want to easily edit, delete, and search my dream records.
+    - As a user, I want a calendar view to quickly locate and browse dreams by date.
+    - As a user, I want to add custom tags or select from a **preset tag library** for my dreams, making classification and retrieval easier.
+    - As a user, I want to quickly record dreams via voice, especially when just waking up and still groggy, to efficiently capture details.
+- **User Value:** Conveniently capture and organize dream information, laying the foundation for later analysis and review.
+- **Feature Logic & Rules:**
+    1. Users can create new dream records.
+    2. Supports text and voice input (voice is converted to text for storage).
+    3. Allows users to tag the emotion felt during the dream (e.g., happy, confused, fearful, etc.).
+    4. Users can add multiple tags to a dream, from system presets or custom tags added to their personal library.
+    5. Records automatically save date and time.
+    6. Provides editing and deletion of recorded dreams.
+    7. Supports search by keyword, date, tag, emotion, etc.
+    8. Calendar view for browsing dreams by date.
+- **Interaction Requirements:** Smooth input, easy tag selection, intuitive calendar view.
+- **Data Needs:** Dream text, audio file path (temporary), converted text, emotion data, tag data, record time.
+- **Tech Dependencies:** iOS Speech Recognition API (SFSpeechRecognizer for Swift), local database (Core Data or Realm) or Firebase Firestore.
+- **Acceptance Criteria:** Text and voice recording work. Tag system (preset & custom) works. CRUD for dreams works. Calendar view displays correctly.
+
+#### 5.2.2 AI Dream Interpretation & Positive Guidance
+- **Feature Description:** Users can **manually trigger** AI interpretation of recorded dreams. The AI, based on psychology, symbolism, cultural archetypes, and user-provided context (emotions, recent events—if provided), generates a multi-dimensional analysis and explanation. **Especially, if negative emotions or anxiety are detected, the system proactively provides positive psychological suggestions, coping strategies, and positive thinking guidance to help users turn dream insights into positive real-life actions, achieving wellness goals.**
+- **User Value:** Gain deep understanding of dreams, explore subconscious, receive psychological insights, and get positive support and guidance when needed.
+- **Feature Logic & Rules:**
+    1. User selects a dream record and clicks "Interpret Dream."
+    2. System sends dream text, tags, emotions, etc. (with user consent) to the AI engine.
+    3. AI engine analyzes, referencing knowledge bases (psychology, symbolism, cultural archetypes) and ML models, generating an interpretation report.
+    4. Report includes: dream theme summary, key symbol analysis, possible emotional connections, potential real-life associations.
+    5. **If negative emotions or anxiety are detected, the report includes a "Positive Guidance & Suggestions" section with actionable positive thinking, coping tips, or relaxation exercises.**
+    6. Users can rate the interpretation and guidance (e.g., "Helpful," "Inaccurate"); feedback is used to optimize the AI model.
+- **Interaction Requirements:** Clear, readable results, friendly layout, key info highlighted. Positive guidance should be warm and encouraging. Feedback entry provided.
+- **Data Needs:** Dream text, tags, emotions, user feedback, AI model training data, positive guidance strategy library.
+- **Tech Dependencies:** NLP, ML platform, dream interpretation knowledge base, positive psychology guidance base, Firebase (for cloud functions and user data linkage).
+- **Acceptance Criteria:** Results return within 30s. At least 3 analysis dimensions. Positive guidance included for negative dreams. Feedback works.
+
+#### 5.2.3 Tag Library Management
+- **Feature Description:** Users can view and manage their tag library, including system presets and custom tags. Users can create, edit, or delete custom tags. System tags cannot be deleted or edited, but users can choose whether to display them in their tag selector.
+- **User Value:** Organize and classify dreams more efficiently, improve retrieval, personalize management.
+- **Feature Logic & Rules:**
+    1. Tag library entry shows all tags (system + custom).
+    2. Users can add new custom tags.
+    3. Users can edit custom tag names.
+    4. Users can delete custom tags (if still used, prompt or handle disassociation).
+    5. System tags are app-maintained, not user-editable, but users can control their visibility or priority.
+    6. Tags can show associated dream count.
+- **Interaction Requirements:** Clear tag list, easy operations. Simple create/edit flow.
+- **Data Needs:** Tag ID, name, type (system/custom), creation time, associated dream count.
+- **Tech Dependencies:** Local DB (Core Data/Realm) or Firebase Firestore.
+- **Acceptance Criteria:** Users can create/edit/delete custom tags. System tags display as expected. Tags associate with dreams correctly.
+
+#### 5.2.4 Dream Statistics & Pattern Analysis
+- **Feature Description:**
+    - As a user, I want to see statistics on my dreams, like most common emotions, most used tags, and trends.
+    - As a user, I want the app to help me analyze patterns, e.g., if certain themes always appear with certain emotions.
+- **User Value:** Understand dream characteristics and trends, discover deeper subconscious patterns.
+- **Feature Logic & Rules:**
+    - Count total dreams, average per week/month.
+    - Frequency and proportion of emotion tags (visualized as pie/bar charts).
+    - Frequency and proportion of keyword tags (visualized).
+    - (Advanced) Analyze common themes (via NLP or user tags).
+    - (Advanced) Analyze emotion-theme/tag correlations.
+    - (Advanced) Provide review reports summarizing dream features and changes over time.
+- **Interaction Requirements:** Clear, friendly charts. Customizable time range.
+- **Data Needs:** Aggregated stats from all user dreams.
+- **Tech Dependencies:** Data analysis and visualization libraries/components.
+- **Acceptance Criteria:** Accurate stats, correct charts, filterable by dimension.
+
+### 5.3 Secondary Features
+
+- **User Account Management:**
+    - **Features:** Sign up, login (phone/email/third-party), password recovery, profile editing (nickname, avatar).
+    - **Value:** Secure data and personalized experience.
+- **Settings & Help:**
+    - **Features:** Notification toggles (e.g., daily reminders), privacy settings (e.g., data sync), help center/FAQ, about us, feedback, version info.
+    - **Value:** Customization and support.
+- **Data Export (Advanced):**
+    - **Features:** Subscribers can export dream data (JSON, CSV).
+    - **Value:** Data ownership, backup, advanced analysis.
+- **Theme Customization:**
+    - **Features:** Multiple UI themes (dark mode, color schemes).
+    - **Value:** Personalization and comfort.
+
+### 5.4 Future Feature Backlog
+
+- **Anonymous Dream Sharing Community:**
+    - **Description:** Users can (optionally, after anonymization) share dreams to a community, browse others' dreams, like/comment (friendly only).
+    - **Value:** User stickiness, sharing/connection, inspiration from others.
+    - **Considerations:** Strict content moderation, privacy, community management.
+- **Professional Counselor Integration (Optional):**
+    - **Description:** Paid entry or referral for users to consult with professional counselors about dreams.
+    - **Value:** Deeper support, new business model.
+    - **Considerations:** Vetting counselors, clear service boundaries.
+- **Lucid Dream/Control Tools:**
+    - **Description:** Knowledge and tools for lucid dreaming (e.g., reality checks, dream triggers).
+    - **Value:** For users interested in dream control.
+    - **Considerations:** Scientific validity.
+- **Dream Symbol/Dictionary:**
+    - **Description:** Searchable database of common dream symbols and meanings, with cultural/psychological explanations.
+    - **Value:** Reference for AI and users.
+- **Integration with Other Health Apps:**
+    - **Description:** With user consent, integrate with sleep/emotion tracking apps for holistic analysis.
+    - **Value:** More comprehensive insights.
+    - **Considerations:** Privacy and security.
+
+## 6. User Flows & Interaction Design Guidance
+
+### 6.1 Core User Journey Map
+
+*(Example: New user records and interprets a dream for the first time)*
+
+```mermaid
+journey
+    title New User's First Dream Recording & Interpretation
+    section Download & First Experience
+      Download App: descoberta --> Install & Open: onboarding_start --> Guide/Feature Intro: onboarding_tour --> Sign Up/Login: auth
+    section First Dream Recording
+      Enter Main Screen: home_empty --> Click "Record New Dream": new_dream_start --> Enter Dream Description (Text/Voice): dream_input_text_voice --> Add Emotion: dream_input_emotion --> Add Tags: dream_input_tags --> Save Dream: dream_save
+    section Get AI Interpretation
+      Dream Saved: dream_save_success --> Click "Get Interpretation": request_interpretation --> Wait Animation/Prompt: interpretation_loading --> View Result: view_interpretation
+    section Interaction & Review
+      Rate/Feedback: interpretation_feedback --> Return to Dream List: dream_list --> Reopen App: app_reopen --> View History: view_history
+```
+
+### 6.2 Key Process Details & State Diagrams
+
+#### 6.2.1 Dream Recording Flow
+
+```mermaid
+graph TD
+    A(Start Recording) --> B{Choose Input Method};
+    B -- Text --> C[Enter Text];
+    B -- Voice --> D[Voice Input];
+    D --> E[Voice-to-Text];
+    C --> F[Add Emotion Tag];
+    E --> F;
+    F --> G[Add Custom or Preset Tag];
+    G --> H[Select Dream Date];
+    H --> I{Save?};
+    I -- Yes --> J[Save Success, Go to Details/List];
+    I -- No --> K[Cancel, Return];
+```
+
+#### 6.2.2 AI Interpretation Flow
+
+```mermaid
+stateDiagram-v2
+    [*] --> Not Interpreted
+    Not Interpreted --> Request Interpretation : User clicks "Interpret"
+    Request Interpretation --> Interpreting : System submits to AI engine
+    state Interpreting {
+        [*] --> Analyze Text
+        Analyze Text --> Extract Symbols
+        Extract Symbols --> Match Knowledge Base
+        Match Knowledge Base --> Generate Report
+        Generate Report --> [*]
+    }
+    Interpreting --> Interpretation Complete : AI returns result
+    Interpreting --> Interpretation Failed : Error (network/engine)
+    Interpretation Complete --> [*] : User views result
+    Interpretation Failed --> Not Interpreted : User can retry
+``` 
+
+## 7. Non-Functional Requirements
+
+### 7.1 Performance Requirements
+- Dream record save (local/Firebase): < 1 second.
+- **iOS speech-to-text (SFSpeechRecognizer):** High real-time requirement, transcription delay should be as low as possible, ideally processing starts as soon as user finishes speaking, short audio < 2 seconds.
+- AI dream interpretation (manual trigger): Core feature, first interpretation < 30 seconds, later optimized to < 15 seconds (considering network and AI engine load).
+- List loading: < 2 seconds.
+- App launch time: < 3 seconds.
+- **Firebase operations:** All interactions (auth, data read/write) must have timeout and error handling, ensuring the app doesn't freeze on poor networks and provides appropriate user prompts.
+
+### 7.2 Security Requirements
+- **User authentication:** Secure identity verification via Firebase Authentication.
+- User data (especially dreams, personal info) must be encrypted in transit (HTTPS) and at rest (e.g., Firebase Firestore default server-side encryption).
+- Strict privacy policy, clear data usage scope, user control over their data (e.g., export, account deletion).
+- **Comply with Apple privacy guidelines and App Store review requirements.**
+- Prevent unauthorized access and data leaks, use Firebase security rules to control data access.
+- AI engine input/output must be filtered for security, preventing malicious injection.
+
+### 7.3 Usability & Accessibility Standards
+- Simple, intuitive UI, easy operations.
+- Consider accessibility for visually/hearing impaired users.
+
+### 7.4 Compliance Requirements
+- Comply with laws and regulations in target markets, especially regarding data privacy and mental health.
+
+### 7.5 Data Analytics & Tracking Needs
+- User registration (via Firebase), login (via Firebase), DAU, MAU.
+- Dream record frequency, average length, **text vs. voice record ratio**, common emotions/tags.
+- **Tag library usage: custom tag creation count, preset tag usage frequency.**
+- AI interpretation usage (manual trigger count), satisfaction feedback, **positive guidance effectiveness feedback (if any).**
+- Paid conversion rate, subscription retention (if paid features are introduced).
+- **Core wellness metrics: e.g., user self-reported emotional improvement frequency (via periodic in-app surveys or guided questions).**
+
+## 8. Technical Architecture Considerations
+
+### 8.1 Tech Stack Suggestions
+- **iOS: Swift**
+- Backend: Choose based on team familiarity and needs, e.g., Python (Django/Flask), Node.js (Express), Ruby on Rails, Go, etc. Firebase Cloud Functions is also an option for backend logic.
+- Database: Firebase Firestore or Firebase Realtime Database.
+- AI/ML: Python (TensorFlow, PyTorch, scikit-learn), cloud services (Google AI Platform, AWS SageMaker), or Firebase ML Kit (if suitable).
+- **User authentication & login: Firebase Authentication**
+
+### 8.2 System Integration Needs
+- **Firebase Ecosystem:**
+    - **Firebase Authentication:** For user registration/login (email/password, Apple Sign-In, Google Sign-In, etc.).
+    - **Firebase Firestore/Realtime Database:** For storing user data, dreams, tags, etc.
+    - **Firebase Cloud Functions:** For handling AI interpretation requests, backend processing.
+    - **Firebase ML Kit:** (If suitable) For some on-device AI features.
+    - **Firebase Analytics:** For user behavior tracking and analysis.
+- (Optional) Payment gateway (via Apple App Store in-app purchase for subscriptions and purchases).
+
+### 8.3 Technical Dependencies & Constraints
+- Depend on reliable NLP/ML libraries/services for dream text analysis and positive guidance generation.
+- Ensure data storage and transmission security, comply with privacy regulations, especially when using cloud services.
+- **iOS platform features: Fully utilize iOS speech recognition API (SFSpeechRecognizer) for speech-to-text.**
+- **Deep integration with Firebase SDK.**
+
+### 8.4 Data Model Suggestions
+- **User:**
+    - `userID` (Firebase UID, String, Primary Key)
+    - `email` (String, Nullable)
+    - `displayName` (String, Nullable)
+    - `createdAt` (Timestamp)
+    - `subscriptionStatus` (String, e.g., "free", "premium")
+    - `settings` (Map, e.g., {notificationsEnabled: true})
+- **Dream:**
+    - `dreamID` (String, Primary Key, Auto-generated)
+    - `userID` (String, Foreign Key to User.userID)
+    - `title` (String, Optional)
+    - `text` (String, Content of the dream)
+    - `audioFilePath` (String, Optional, path to local/cloud storage if voice memo saved)
+    - `emotions` (Array of Strings, e.g., ["happy", "anxious"])
+    - `tagIDs` (Array of Strings, Foreign Keys to Tag.tagID)
+    - `recordedAt` (Timestamp)
+    - `updatedAt` (Timestamp)
+    - `interpretation` (Map, Optional, see Interpretation sub-model)
+- **Tag:**
+    - `tagID` (String, Primary Key, Auto-generated or predefined for system tags)
+    - `userID` (String, Nullable, Foreign Key to User.userID for custom tags, null for system tags)
+    - `name` (String, e.g., "flying", "exam")
+    - `isSystemTag` (Boolean)
+    - `usageCount` (Integer, Optional, for analytics)
+- **Interpretation (Sub-model within Dream):**
+    - `interpretationText` (String)
+    - `positiveGuidanceText` (String, Optional)
+    - `generatedAt` (Timestamp)
+    - `modelVersion` (String, Optional)
+    - `userFeedback` (Map, Optional, e.g., {rating: 5, comment: "Helpful"})
+
+## 9. Acceptance Criteria Summary
+
+### 9.1 Feature Acceptance Matrix
+| Module                | Core Feature                  | Acceptance Criteria (Example)                                                      |
+|-----------------------|------------------------------|-----------------------------------------------------------------------------------|
+| **User Account (Firebase)** | Email/password sign up/login | User can register and log in via email/password.                                   |
+|                       | (Optional) Third-party login (Apple/Google) | User can log in via Apple ID or Google account.                                   |
+| **Dream Recording & Management** | Text recording                | User can input and save dream text.                                                |
+|                       | **Voice recording & speech-to-text (iOS Swift)** | User can record voice, system converts to text via SFSpeechRecognizer, user can edit. |
+|                       | Emotion selection             | User can select preset emotions and associate with dreams.                         |
+|                       | **Tag addition (from library/new)** | User can select tags from preset library or create custom tags and associate with dreams. |
+|                       | View/edit/delete dreams       | User can view, edit, and delete recorded dreams.                                   |
+|                       | Calendar view                 | Dreams are correctly marked and accessible by date in calendar view.               |
+| **Tag Library Management** | View system/custom tags         | User can clearly see system and custom tags.                                       |
+|                       | Create custom tag             | User can create new custom tags and save to personal library.                      |
+|                       | Edit/delete custom tag        | User can edit or delete their custom tags.                                         |
+| **AI Dream Interpretation & Positive Guidance (Wellness)** | **Manual interpretation trigger** | User can manually trigger interpretation for a selected dream.                      |
+|                       | Interpretation display        | Results shown within 30s, with multi-dimensional analysis.                         |
+|                       | **Positive guidance display** | If dream suggests negative emotions, result must include clear, actionable positive guidance. |
+|                       | Interpretation feedback       | User can rate interpretation and guidance (e.g., "Helpful", "Inaccurate").        |
+| Non-functional        | Performance - speech-to-text delay | iOS speech-to-text delay < 2s in common scenarios.                                 |
+|                       | Security - Firebase data protection | User data protected by Firebase security rules, compliant with privacy policy.      |
+
+### 9.2 Performance Acceptance Criteria
+- **App launch time:** First launch < 5s, subsequent launches < 2s.
+- **UI response time:** Main UI transitions and actions < 500ms.
+- **List loading speed:** Dream list (≤50 items) loads < 1s.
+- **AI interpretation time:** Avg. < 15s (90% of cases).
+- **Resource usage:** Background CPU < 5%, memory within reasonable range, no significant leaks.
+- **Stability:** ANR/Crash rate < 0.1%.
+
+### 9.3 Quality Acceptance Criteria
+- **Bug density:** 0 critical bugs (functionality loss, data loss, crashes); <3 major bugs (core flow/UX issues) per version.
+- **Code coverage:** Unit test coverage > 60%, key modules > 80%.
+- **Compatibility:** Supports major iOS/Android devices and OS versions (last 3 major versions).
+- **User experience:** Core flows are smooth, no major lags or logic breaks; UI is attractive and fits target user aesthetics.
+- **Data accuracy:** Dream records, interpretation results, and stats are accurate.
+
+## 10. Product Success Metrics
+
+### 10.1 Key Performance Indicators (KPIs) & Goals
+- **User growth & engagement (iOS - Meadow Dream):**
+    - **iOS downloads (Goal: X in 3 months post-MVP)**
+    - DAU/MAU (via Firebase Analytics, Goal: DAU/MAU = Y%)
+    - New user registration success rate (via Firebase Auth, Goal: >Z%)
+    - Avg. session duration (Goal: A min/day)
+    - Retention (next day, 7-day, 30-day, Goal: L%, M%, N%)
+- **Core feature usage:**
+    - **Daily dream records / DAU (Goal: B/DAU)**
+    - **Voice input usage ratio (Goal: C% of records)**
+    - **Tag usage (avg. tags per dream, custom tag creation, preset tag usage)**
+    - **Manual AI interpretation triggers / DAU (Goal: E/DAU)**
+    - AI interpretation "helpful" feedback ratio (Goal: >F%)
+    - **Positive guidance "helpful" feedback ratio (Goal: >G%)**
+- **Wellness & positive guidance effect (exploratory):**
+    - User feedback on "positive guidance" (via surveys, Goal: H% positive impact)
+    - (Long-term) User self-reported emotional improvement (via in-app surveys, e.g., % reporting reduced anxiety)
+- **Monetization (future, if applicable):**
+    - (If Pro version) Paid conversion rate
+    - (If Pro version) Pro user retention
+- **Product quality & reputation:**
+    - App Store rating (Goal: avg. I stars+)
+    - NPS (Goal: J)
+    - Crash rate (via Firebase Crashlytics, Goal: <K%)
+
+### 10.2 North Star Metric Definition & Rationale
+- **North Star Metric: Number of users completing at least one "positive dream interaction" per week in Meadow Dream.**
+    - **Definition:** "Positive dream interaction" means the user completes any of the following in Meadow Dream:
+        1. Records a dream (text or **voice**) and **adds at least one tag**.
+        2. Records a dream and **manually triggers AI interpretation**.
+        3. Gives positive feedback on the **positive guidance** in AI interpretation results (e.g., "Helpful").
+    - **Rationale:** This metric reflects user recognition and deep use of Meadow Dream's core value (easy recording, personalized organization, deep interpretation, positive guidance). It emphasizes active, positive engagement with dream content and meaning, aligning with the product's wellness and positive guidance positioning. Improving this metric means users are gaining real value and positive experience, boosting stickiness, retention, and word-of-mouth, and supporting monetization potential.
+
+### 10.3 Metrics Monitoring Plan
+- **Data collection tools:**
+    - Integrated mobile analytics (Firebase Analytics, Mixpanel, Amplitude, etc.).
+    - Backend server logs.
+    - User feedback systems (in-app, app store reviews).
+- **Core event tracking:**
+    - User actions: App launch, sign up/login, dream record (start/save), request interpretation, view interpretation, feedback, subscription actions (click, purchase, cancel), etc.
+    - Page views: PV/UV for main pages.
+    - Errors & performance: Crash, ANR, API latency, interpretation latency, etc.
+- **Reporting & analysis frequency:**
+    - **Daily:** Monitor core activity, new users, crash rate, anomalies.
+    - **Weekly:** Analyze retention, core feature usage, paid conversion, version/ops impact.
+    - **Monthly/quarterly:** Deep-dive user behavior, North Star metric, market feedback, inform iteration and strategy.
+- **Dashboard:**
+    - Build dashboards for core metrics, enabling real-time team visibility.
+- **A/B testing:**
+    - For major feature/UI changes, use A/B testing to validate impact, data-driven decisions. 
+    
+    
+
+
+# 产品需求文档 (PRD) - Meadow Dream
 
 ## 1. 文档信息
 
@@ -6,7 +613,7 @@
 
 | 版本号 | 修订日期   | 修订人 | 修订说明         |
 | ------ | ---------- | ------ | ---------------- |
-| 0.1    | YYYY-MM-DD | 产品经理 | 初稿创建         |
+| 0.1    | 2025-06-13 | 产品经理 | 初稿创建         |
 
 ### 1.2 文档目的
 

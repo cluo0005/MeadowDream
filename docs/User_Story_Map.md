@@ -1,3 +1,90 @@
+# User Story Map - Meadow Dream
+
+## 1. User Story Map Overview
+
+This user story map visualizes the core activities, tasks, and supporting user stories for the "Meadow Dream" iOS app. It helps the team better understand user needs, plan feature priorities, and ensure a user-centered development process, with special attention to iOS platform features, Firebase integration, and the delivery of Wellness value.
+
+The horizontal axis represents the main sequence of user activities (the backbone of the user journey), while the vertical axis breaks down each activity into specific user tasks and corresponding user stories.
+
+## 2. User Activity Flow (Activities - Horizontal Backbone)
+
+| **Core User (iOS)** | **Activity 1: Explore & Onboarding (iOS & Firebase)** | **Activity 2: Dream Recording & Management (iOS, Voice, Tag Library)** | **Activity 3: Interpretation & Understanding (Manual Trigger, Wellness)** | **Activity 4: Interaction & Sharing (V1.2+)** | **Activity 5: Personal Growth & Review (Wellness & Guidance)** |
+| :----------- | :-------------------- | :---------------------- | :---------------------- | :------------------------- | :------------------------ |
+| New iOS User/Visitor  | Learn about app features (Wellness core) |                         |                         |                            |                           |
+| Registered iOS User (Firebase) |                       | Record new dream (text/voice)  | **Manually trigger AI interpretation & positive guidance** | (Optional) Share dream/interpretation      | View dream history & Wellness trends |
+|              |                       | Edit/delete dream           | Provide feedback on interpretation/guidance    | (Optional) Join community discussion       | Set personalized preferences (iOS)      |
+|              |                       | **Use tag library to manage dreams**  | Favorite important interpretations/guidance      |                            | **Receive dream guidance & prediction reminders** |
+
+## 3. User Task Breakdown & User Stories (Tasks & Stories - Vertical Details)
+
+### Activity 1: Explore & Onboarding (iOS & Firebase)
+
+| User Task             | User Story                                                                 | Priority (Roadmap Version) | Notes                       |
+| :-------------------------- | :------------------------------------------------------------------------------------ | :-------------------- | :------------------------- |
+| Understand product core value (Wellness) | As a **potential iOS user interested in self-exploration and positive psychology**, I want to **quickly understand how "Meadow Dream" helps me improve wellness through dream recording, AI interpretation, and positive guidance**, so I can **decide whether to download and try the app**.              | MVP                   | App Store description (highlight Wellness, iOS features), product intro page, first-launch onboarding       |
+| Browse main feature intro            | As a **first-time iOS user**, I want to **learn about the app's core features (e.g., voice/text dream recording, manual AI interpretation & positive guidance, tag library, Firebase account system) through clear onboarding**, so I can **quickly get started**.                        | MVP                   | First-launch onboarding flow (SwiftUI), feature highlight cards |
+| View user reviews/feedback (external) | As a potential iOS user, I want to see other users' reviews to judge the product's credibility and effectiveness.                  | N/A                   | App Store reviews           |
+| **Register via Firebase** | As a **new iOS user who decides to use the app**, I want to **register easily (email, Sign in with Apple) via Firebase**, so I can **securely save my dream data and use all features**.              | MVP                   | **Firebase Authentication (Email, Sign in with Apple)** |
+| **Login via Firebase**    | As a **registered iOS user**, I want to **log in securely and conveniently via Firebase (email/password or Apple ID)**, so I can **access my dreams and personalized settings**.                      | MVP                   | **Firebase Authentication**                            |
+| **Password recovery via Firebase**    | As an iOS user, I want to easily recover my account via Firebase if I forget my password, so I can continue using the service. | MVP                   | Firebase Password Reset | 
+
+### Activity 2: Dream Recording & Management (iOS, Voice, Tag Library)
+
+| User Task         | User Story                                                                 | Priority (Roadmap Version) | Notes                               |
+| :---------------------- | :------------------------------------------------------------------------------------ | :-------------------- | :--------------------------------- |
+| **Create new dream record (text)** | As an **iOS user who wants to record and understand my dreams**, I want to **easily record dream details via text input, including description, date, main emotion, and tags from the tag library or custom tags**, so I can **review, manage, and get interpretation/guidance later, with data stored in Firebase**. | MVP                   | SwiftUI text input, date picker, emotion selection, **tag library integration**, **Firebase Firestore storage** |
+| **Create new dream record (voice-to-text)** | As an **iOS user who just woke up or can't type**, I want to **quickly record dreams via voice input, with automatic speech-to-text filling the dream description**, so I can **add details later, with optional voice file storage in Firebase Storage**. | MVP                  | **SFSpeechRecognizer (iOS native speech recognition)**, voice permissions, edit transcribed text |
+| Edit recorded dream        | As an iOS user, I want to **easily modify or add to previously recorded dream content, emotion, tags, or date**, so I can **ensure completeness and accuracy**.                  | MVP                   |                                    |
+| Delete unwanted dream records    | As an iOS user, I want to **delete unneeded, duplicate, or incorrect dream records**, so I can **keep my dream list tidy**.                                  | MVP                   | Support single/batch delete (batch in V1.1+) |
+| View dream list            | As an iOS user, I want to **see all my dream records in reverse chronological order, with title/summary, date, and emotion**, so I can **quickly browse and select dreams to review or act on**.                          | MVP                   | SwiftUI List with date, title/summary, emotion icon |
+| Search specific dreams            | As an iOS user, I want to **search all my dreams by keyword (content, tags)**, so I can **quickly find dreams with specific info**.                  | MVP                   | Search bar, support content/tag search (tag search based on tag library) |
+| **Use tag library to add/manage tags** | As an iOS user, I want to **use a tag library with preset and custom tags to add one or more tags to my dreams**, so I can **better classify, manage, search, and later analyze patterns and get personalized guidance**. | MVP                   | **Tag library management UI (create, edit, delete tags), tag selector** |
+| Mark dream emotion            | As an iOS user, I want to **mark the main emotion (e.g., joy, fear, anxiety, confusion) when recording or after**, so I can **better understand the dream's tone and provide data for emotion pattern analysis and Wellness tracking**. | MVP                   | Preset emotions (emoji+text), single/multi-select (multi in V1.1+) |
+
+### Activity 3: Interpretation & Understanding (Manual Trigger, Wellness)
+
+| User Task         | User Story                                                                     | Priority (Roadmap Version) | Notes                                     |
+| :---------------------- | :---------------------------------------------------------------------------------------- | :-------------------- | :--------------------------------------- |
+| **Manually trigger AI dream interpretation & positive guidance** | As an **iOS user who wants guidance after recording a dream**, I want to **manually trigger AI analysis and get positive psychological guidance and Wellness advice**, so I can **better understand my dream and improve my mood**. | MVP                   | Clear "Get Interpretation & Guidance" button after recording |
+| **View AI interpretation & positive guidance results** | As an iOS user, I want to **see AI-generated dream interpretation and positive guidance in a clear, structured, and understandable way, including summary, symbol analysis, emotion links, positive thinking, and actionable Wellness advice**, so I can **gain inspiration and support**. | MVP                   | Structured display: summary, key symbols, emotion analysis, **positive guidance, Wellness action points** |
+| Understand interpretation dimensions (advanced) | As an **iOS user interested in deeper dream interpretation**, I want to **(in advanced version) choose or learn about different psychological/cultural interpretation perspectives and positive psychology methods**, so I can **get richer, multi-layered understanding**. | V1.2 (Advanced)           | (Advanced) Optional models or reference info |
+| **Give feedback on AI interpretation & guidance** | As an iOS user, I want to **rate the accuracy, helpfulness, or relevance of AI dream interpretation and positive guidance (e.g., like/dislike, or fit tags)**, so I can **help improve the AI and let developers know its quality**.                | MVP                   | Simple feedback: useful/not, or star rating |
+| View dream's interpretation history  | As an iOS user, if I request multiple interpretations for the same dream (e.g., after AI model updates), I want to **easily view all historical interpretations and guidance for that dream**, so I can **compare versions or track deeper understanding**.              | V1.1                  | Show history entry in dream details |
+| Favorite valuable dreams/interpretations & guidance | As an iOS user, I want to **favorite or mark as important the dreams and interpretations/guidance that are especially inspiring, important, or interesting**, so I can **quickly find and review them later**.                    | V1.1                  | Favorite/star feature, separate list |
+| Get more personalized AI interpretation & guidance (advanced) | As an **iOS user seeking deeper insights**, I am willing to **(in advanced version, with consent) let AI use my long-term dream patterns or limited personal context (e.g., recent stress, focus) for more personalized interpretation/guidance/Wellness plan**. | V1.2 (Advanced) / V2.0+ | (Advanced) User opt-in, privacy emphasized |
+
+### Activity 4: Interaction & Sharing (V1.2+)
+
+| User Task         | User Story                                                                     | Priority (Roadmap Version) | Notes                                     |
+| :---------------------- | :---------------------------------------------------------------------------------------- | :-------------------- | :--------------------------------------- |
+| (Optional) Anonymously share dream snippet externally | As an iOS user, I may want to **anonymously share an interesting dream snippet (not the full record, de-identified) to my social platforms**, so I can **discuss with friends or groups, but not as an in-app community**.          | V1.2 (Optional/Explore)           | **Use iOS native share sheet**, strictly control content, ensure privacy, not an in-app community |
+| (Future) Browse anonymous dream themes | As an **iOS user interested in common dream phenomena**, I may want to **(in future, if a safe community is introduced) browse categorized anonymous dream themes or common symbols**, so I can **gain broader perspective and resonance, not individual dreams**.          | V2.0+ (if community)           | Focus on themes/symbols, not individual privacy |
+| (Future) Join themed dream discussions | As an **iOS user wanting to discuss dream experiences**, I want to **(in future, if a safe community is introduced) join managed, anonymous discussions around specific dream themes or symbols**, so I can **benefit from collective wisdom**.                | V2.0+ (if community)                 | Strong moderation, anonymity, theme focus |
+
+### Activity 5: Personal Growth & Review (Wellness & Guidance)
+
+| User Task         | User Story                                                                     | Priority (Roadmap Version) | Notes                               |
+| :---------------------- | :---------------------------------------------------------------------------------------- | :-------------------- | :--------------------------------- |
+| **View personal dream, emotion & Wellness stats** | As an **iOS user wanting to understand myself and improve Wellness through dreams**, I want to **see stats on my dream records, e.g., most common emotions, tags/keywords, trends over time, positive guidance adoption**, so I can **discover subconscious patterns, emotional fluctuations, and Wellness progress**. | V1.1 (basic stats), V1.2 (advanced/paid) | Chart display (Swift Charts), e.g., emotion pie, tag cloud, frequency line, **Wellness tracking** |
+| Review dreams by date/calendar     | As an iOS user, I want to **review all dreams in a date range or via calendar view**, so I can **relate dreams to life events**.                      | V1.1                  | Calendar view, date range filter |
+| **Receive dream guidance & prediction reminders (Wellness)** | As an iOS user, I want to **receive personalized positive guidance, coping tips, or sleep improvement reminders in certain situations (e.g., after a series of anxious dreams, or per my goals)**, to help me adjust mindset and improve Wellness. | V1.1 (basic), V1.2 (personalized/prediction) | **Triggered by Firebase Functions backend, iOS local notifications**, careful trigger/guidance design, user control emphasized |
+| Set app preferences & notifications      | As an iOS user, I want to **set preferences like daily dream reminder time, positive guidance frequency/type, notification toggles, theme (e.g., dark mode)**, so the app fits my habits and Wellness needs.                        | V1.1 (reminders), V1.2 (theme) | Settings: reminders, notification mgmt, appearance (iOS dark mode) |
+| (Future) Export personal dream data  | As an **iOS user who values data ownership**, I may want to **(in future) export all my dream records and related interpretations/guidance (with consent) in common formats (e.g., JSON, CSV)**, for backup or analysis elsewhere.                              | V2.0+                 | Ensure export is secure, clear format, inform user of data content |
+
+## 4. Story Priority & Version Mapping
+
+Detailed mapping is reflected in the "Priority (Roadmap Version)" column above and aligns with the version planning in the [Product Roadmap](./Roadmap.md).
+
+**Priority definitions (same as PRD and Roadmap):**
+
+-   **MVP (iOS - Meadow Dream):** Core product features, forming the minimum viable product to validate the core Wellness value proposition. Includes Firebase account, text/voice dream recording, basic tag library, manual AI interpretation & initial positive guidance.
+-   **V1.1:** Important enhancements and UX optimizations to improve retention and Wellness effect. Includes enhanced AI guidance, comprehensive tag management, stats/review, proactive guidance reminders, etc.
+-   **V1.2:** Further feature improvements and exploration of monetization and deeper user value, possibly including more personalized prediction/guidance and initial sharing features.
+-   **V2.0+:** Long-term direction, possibly including advanced AI, content ecosystem, safe community interaction, with priorities adjusted dynamically based on earlier data and feedback.
+
+*(This map will be updated continuously as the product evolves and user feedback is collected)* 
+
+
 # 用户故事地图 (User Story Map) - Meadow Dream
 
 ## 1. 用户故事地图概述
