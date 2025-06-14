@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Tag Library</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .dark .status-bar {
+            color: white;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px); /* Status bar and home indicator */
+        }
+        
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .dark .header {
+            border-bottom-color: #4A5568;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .create-button {
+            padding: 8px 16px;
+            background-color: #5B7FFF;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            margin-top: 24px;
+            color: #2D3748;
+        }
+        
+        .dark .section-title {
+            color: #E2E8F0;
+        }
+        
+        .section-description {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        
+        .dark .section-description {
+            color: #A0AEC0;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: #EDF2F7;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+        }
+        
+        .dark .search-bar {
+            background-color: #2D3748;
+        }
+        
+        .search-bar i {
+            color: #718096;
+            margin-right: 12px;
+        }
+        
+        .dark .search-bar i {
+            color: #A0AEC0;
+        }
+        
+        .search-input {
+            flex: 1;
+            border: none;
+            background-color: transparent;
+            font-size: 16px;
+            color: #2D3748;
+        }
+        
+        .dark .search-input {
+            color: #E2E8F0;
+        }
+        
+        .search-input:focus {
+            outline: none;
+        }
+        
+        .tag-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        
+        .tag-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+            background-color: #F8FAFC;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .dark .tag-item {
+            border-color: #4A5568;
+            background-color: #2D3748;
+        }
+        
+        .tag-item:hover {
+            border-color: #5B7FFF;
+            box-shadow: 0 2px 8px rgba(91, 127, 255, 0.1);
+        }
+        
+        .tag-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .tag-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            font-size: 20px;
+        }
+        
+        .tag-name {
+            font-weight: 500;
+            font-size: 16px;
+        }
+        
+        .tag-type {
+            font-size: 12px;
+            color: #718096;
+            margin-top: 4px;
+        }
+        
+        .dark .tag-type {
+            color: #A0AEC0;
+        }
+        
+        .tag-actions {
+            color: #718096;
+            font-size: 18px;
+        }
+        
+        .dark .tag-actions {
+            color: #A0AEC0;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 0;
+            text-align: center;
+        }
+        
+        .empty-icon {
+            font-size: 48px;
+            color: #CBD5E0;
+            margin-bottom: 16px;
+        }
+        
+        .dark .empty-icon {
+            color: #4A5568;
+        }
+        
+        .empty-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: #718096;
+            margin-bottom: 24px;
+        }
+        
+        .dark .empty-text {
+            color: #A0AEC0;
+        }
+    </style>
+</head>
+<body class="dark"> <!-- Default to dark mode for consistency -->
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="page-title">Tag Library</div>
+            </div>
+            <div class="create-button">
+                <i class="fas fa-plus mr-1"></i> Create
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <div class="section-description">Manage your dream tags to better organize and analyze your dream patterns.</div>
+            
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" class="search-input" placeholder="Search tags...">
+            </div>
+            
+            <div class="section-title">System Tags</div>
+            <div class="tag-list">
+                <div class="tag-item">
+                    <div class="tag-info">
+                        <div class="tag-icon" style="background-color: rgba(91, 127, 255, 0.1);">
+                            <i class="fas fa-feather" style="color: #5B7FFF;"></i>
+                        </div>
+                        <div>
+                            <div class="tag-name">Flying</div>
+                            <div class="tag-type">System Tag</div>
+                        </div>
+                    </div>
+                    <div class="tag-actions">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="tag-item">
+                    <div class="tag-info">
+                        <div class="tag-icon" style="background-color: rgba(167, 139, 250, 0.1);">
+                            <i class="fas fa-running" style="color: #A78BFA;"></i>
+                        </div>
+                        <div>
+                            <div class="tag-name">Chased</div>
+                            <div class="tag-type">System Tag</div>
+                        </div>
+                    </div>
+                    <div class="tag-actions">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="tag-item">
+                    <div class="tag-info">
+                        <div class="tag-icon" style="background-color: rgba(248, 113, 113, 0.1);">
+                            <i class="fas fa-heart" style="color: #F87171;"></i>
+                        </div>
+                        <div>
+                            <div class="tag-name">Romance</div>
+                            <div class="tag-type">System Tag</div>
+                        </div>
+                    </div>
+                    <div class="tag-actions">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title">Custom Tags</div>
+            <div class="tag-list">
+                <div class="tag-item">
+                    <div class="tag-info">
+                        <div class="tag-icon" style="background-color: rgba(251, 191, 36, 0.1);">
+                            <i class="fas fa-mountain" style="color: #FBBF24;"></i>
+                        </div>
+                        <div>
+                            <div class="tag-name">Adventure</div>
+                            <div class="tag-type">Custom Tag</div>
+                        </div>
+                    </div>
+                    <div class="tag-actions">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+                
+                <div class="tag-item">
+                    <div class="tag-info">
+                        <div class="tag-icon" style="background-color: rgba(52, 211, 153, 0.1);">
+                            <i class="fas fa-tree" style="color: #34D399;"></i>
+                        </div>
+                        <div>
+                            <div class="tag-name">Nature</div>
+                            <div class="tag-type">Custom Tag</div>
+                        </div>
+                    </div>
+                    <div class="tag-actions">
+                        <i class="fas fa-chevron-right"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty state for when no custom tags exist (hidden by default) -->
+            <div class="empty-state" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-tags"></i>
+                </div>
+                <div class="empty-text">You haven't created any custom tags yet</div>
+                <div class="create-button">
+                    <i class="fas fa-plus mr-1"></i> Create Your First Tag
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            
+            // Detect system color scheme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.classList.add('dark');
+            } else {
+                body.classList.remove('dark'); // Ensure light mode if not dark
+            }
+            
+            // Back button
+            const backButton = document.querySelector('.back-button');
+            backButton.addEventListener('click', () => {
+                // In a real app, navigate back to previous screen
+                alert('Navigate back to previous screen (placeholder)');
+            });
+            
+            // Create button
+            const createButtons = document.querySelectorAll('.create-button');
+            createButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // In a real app, navigate to tag creation screen
+                    alert('Navigate to tag creation screen (placeholder)');
+                });
+            });
+            
+            // Tag item click
+            const tagItems = document.querySelectorAll('.tag-item');
+            tagItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // In a real app, navigate to tag edit screen
+                    const tagName = item.querySelector('.tag-name').textContent;
+                    const tagType = item.querySelector('.tag-type').textContent;
+                    
+                    if (tagType === 'System Tag') {
+                        alert(`View details for system tag: ${tagName} (placeholder)`);
+                    } else {
+                        alert(`Navigate to edit screen for custom tag: ${tagName} (placeholder)`);
+                    }
+                });
+            });
+            
+            // Search functionality
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', () => {
+                const searchTerm = searchInput.value.toLowerCase();
+                const tagItems = document.querySelectorAll('.tag-item');
+                
+                tagItems.forEach(item => {
+                    const tagName = item.querySelector('.tag-name').textContent.toLowerCase();
+                    if (tagName.includes(searchTerm)) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Check if any tags are visible in each section
+                const sections = document.querySelectorAll('.section-title');
+                sections.forEach(section => {
+                    const sectionName = section.textContent;
+                    const tagList = section.nextElementSibling;
+                    const visibleTags = tagList.querySelectorAll('.tag-item[style="display: flex;"]');
+                    
+                    if (visibleTags.length === 0) {
+                        section.style.display = 'none';
+                        tagList.style.display = 'none';
+                    } else {
+                        section.style.display = 'block';
+                        tagList.style.display = 'flex';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

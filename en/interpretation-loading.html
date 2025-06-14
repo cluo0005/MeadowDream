@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Interpretation Loading</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            background-color: #F5F7FA;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1A202C;
+        }
+        
+        .dark .status-bar {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+            padding: 0 20px;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1A202C;
+            font-size: 20px;
+        }
+        
+        .dark .back-button {
+            color: #F7FAFC;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .placeholder-button {
+            width: 40px;
+        }
+        
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            text-align: center;
+            padding: 0 20px;
+        }
+        
+        .loading-animation {
+            margin-bottom: 32px;
+        }
+        
+        .loading-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 4px solid #E2E8F0;
+            border-top-color: #5B7FFF;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        .dark .loading-circle {
+            border-color: #2D3748;
+            border-top-color: #5B7FFF;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #5B7FFF;
+        }
+        
+        .loading-description {
+            font-size: 16px;
+            line-height: 1.5;
+            color: #4A5568;
+            margin-bottom: 24px;
+        }
+        
+        .dark .loading-description {
+            color: #E2E8F0;
+        }
+        
+        .loading-progress {
+            width: 100%;
+            max-width: 300px;
+            margin-bottom: 16px;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: #E2E8F0;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .dark .progress-bar {
+            background-color: #2D3748;
+        }
+        
+        .progress-fill {
+            position: absolute;
+            height: 100%;
+            background-color: #5B7FFF;
+            border-radius: 3px;
+            width: 75%;
+            animation: progress 3s ease-in-out infinite;
+        }
+        
+        @keyframes progress {
+            0% { width: 10%; }
+            50% { width: 70%; }
+            100% { width: 90%; }
+        }
+        
+        .progress-text {
+            font-size: 14px;
+            color: #718096;
+            text-align: right;
+            margin-top: 8px;
+        }
+        
+        .dark .progress-text {
+            color: #A0AEC0;
+        }
+        
+        .loading-facts {
+            margin-top: 32px;
+            padding: 16px;
+            background-color: #EDF2F7;
+            border-radius: 12px;
+            max-width: 300px;
+        }
+        
+        .dark .loading-facts {
+            background-color: #2D3748;
+        }
+        
+        .fact-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .fact-title i {
+            color: #5B7FFF;
+        }
+        
+        .fact-content {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #4A5568;
+        }
+        
+        .dark .fact-content {
+            color: #E2E8F0;
+        }
+        
+        .cancel-button {
+            margin-top: 32px;
+            padding: 12px 24px;
+            background-color: transparent;
+            border: 1px solid #CBD5E0;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            color: #4A5568;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .dark .cancel-button {
+            border-color: #4A5568;
+            color: #E2E8F0;
+        }
+        
+        .cancel-button:hover {
+            background-color: #EDF2F7;
+        }
+        
+        .dark .cancel-button:hover {
+            background-color: #2D3748;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-time">9:41</div>
+        <div class="status-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-2"></i>
+            <i class="fas fa-battery-full ml-2"></i>
+        </div>
+    </div>
+    
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="page-title">Dream Interpretation</div>
+            <div class="placeholder-button"></div>
+        </div>
+        
+        <!-- Loading Content -->
+        <div class="loading-container">
+            <div class="loading-animation">
+                <div class="loading-circle"></div>
+            </div>
+            
+            <h2 class="loading-title">Analyzing Your Dream</h2>
+            <p class="loading-description">Our AI is carefully analyzing the symbols, patterns, and emotions in your dream to provide meaningful insights.</p>
+            
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <div class="progress-text">75% Complete</div>
+            </div>
+            
+            <div class="loading-facts">
+                <div class="fact-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Did You Know?</span>
+                </div>
+                <div class="fact-content">
+                    Dreams about falling often relate to feelings of insecurity or anxiety about losing control in your waking life.
+                </div>
+            </div>
+            
+            <button class="cancel-button">Cancel</button>
+        </div>
+    </div>
+    
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        // Detect system color scheme
+        const body = document.body;
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            body.classList.add('dark');
+        }
+        
+        // Back button event
+        document.querySelector('.back-button').addEventListener('click', () => {
+            console.log('Back button clicked');
+            // In a real app, this would navigate back
+        });
+        
+        // Cancel button event
+        document.querySelector('.cancel-button').addEventListener('click', () => {
+            console.log('Cancel button clicked');
+            // In a real app, this would cancel the interpretation process
+        });
+        
+        // Cycle through different facts every few seconds
+        const facts = [
+            "Dreams about falling often relate to feelings of insecurity or anxiety about losing control in your waking life.",
+            "The average person has 3-5 dreams per night, though most are forgotten upon waking.",
+            "REM sleep, when most dreaming occurs, is characterized by rapid eye movements and increased brain activity.",
+            "Recurring dreams often indicate unresolved issues or persistent concerns in your life.",
+            "Lucid dreaming is when you become aware that you're dreaming and can sometimes control the dream narrative."
+        ];
+        
+        let factIndex = 0;
+        const factContent = document.querySelector('.fact-content');
+        
+        setInterval(() => {
+            factIndex = (factIndex + 1) % facts.length;
+            factContent.textContent = facts[factIndex];
+        }, 5000);
+    </script>
+</body>
+</html>

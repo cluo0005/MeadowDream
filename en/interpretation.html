@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Dream Interpretation</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .dark .status-bar {
+            color: white;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+        }
+        
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .dark .header {
+            border-bottom-color: #4A5568;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+            margin-right: 8px;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .share-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 0 20px 20px;
+            overflow-y: auto;
+        }
+        
+        .dream-card {
+            background-color: #EDF2F7;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .dark .dream-card {
+            background-color: #2D3748;
+        }
+        
+        .dream-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .dream-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            color: #718096;
+        }
+        
+        .dark .dream-meta {
+            color: #A0AEC0;
+        }
+        
+        .dream-date {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .dream-emotion {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .dream-content {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+        
+        .dream-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .dream-tag {
+            padding: 6px 12px;
+            background-color: #EBF4FF;
+            color: #5B7FFF;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .dark .dream-tag {
+            background-color: #3182CE20;
+        }
+        
+        .interpretation-section {
+            margin-bottom: 24px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-title i {
+            color: #5B7FFF;
+        }
+        
+        .interpretation-card {
+            background-color: #EDF2F7;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .dark .interpretation-card {
+            background-color: #2D3748;
+        }
+        
+        .interpretation-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #5B7FFF;
+        }
+        
+        .interpretation-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .wellness-card {
+            background-color: #EBF8FF;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid #5B7FFF;
+        }
+        
+        .dark .wellness-card {
+            background-color: #2C5282;
+        }
+        
+        .wellness-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #3182CE;
+        }
+        
+        .dark .wellness-title {
+            color: #90CDF4;
+        }
+        
+        .wellness-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        
+        .dark .wellness-content {
+            color: #E2E8F0;
+        }
+        
+        .action-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: #5B7FFF;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 16px;
+        }
+        
+        .action-button.secondary {
+            background-color: #EDF2F7;
+            color: #4A5568;
+        }
+        
+        .dark .action-button.secondary {
+            background-color: #2D3748;
+            color: #E2E8F0;
+        }
+        
+        .tab-container {
+            display: flex;
+            padding: 8px;
+            background-color: #EDF2F7;
+            border-radius: 12px;
+            margin: 16px 0;
+        }
+        
+        .dark .tab-container {
+            background-color: #2D3748;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            color: #718096;
+            border-radius: 8px;
+        }
+        
+        .dark .tab {
+            color: #A0AEC0;
+        }
+        
+        .tab.active {
+            background-color: white;
+            color: #5B7FFF;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .tab.active {
+            background-color: #1A202C;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .symbol-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .symbol-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            background-color: #EBF4FF;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #5B7FFF;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .dark .symbol-icon {
+            background-color: #3182CE20;
+        }
+        
+        .symbol-content {
+            flex: 1;
+        }
+        
+        .symbol-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .symbol-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #4A5568;
+        }
+        
+        .dark .symbol-description {
+            color: #CBD5E0;
+        }
+        
+        .pattern-item {
+            margin-bottom: 20px;
+        }
+        
+        .pattern-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .pattern-title i {
+            color: #5B7FFF;
+        }
+        
+        .pattern-description {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #4A5568;
+            padding-left: 28px;
+        }
+        
+        .dark .pattern-description {
+            color: #CBD5E0;
+        }
+        
+        .emotion-analysis {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .emotion-item {
+            display: flex;
+            align-items: center;
+        }
+        
+        .emotion-label {
+            width: 80px;
+            font-size: 14px;
+            color: #4A5568;
+        }
+        
+        .dark .emotion-label {
+            color: #CBD5E0;
+        }
+        
+        .emotion-bar-container {
+            flex: 1;
+            height: 8px;
+            background-color: #E2E8F0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .dark .emotion-bar-container {
+            background-color: #4A5568;
+        }
+        
+        .emotion-bar {
+            height: 100%;
+            border-radius: 4px;
+        }
+        
+        .emotion-value {
+            width: 40px;
+            text-align: right;
+            font-size: 14px;
+            font-weight: 500;
+            color: #4A5568;
+        }
+        
+        .dark .emotion-value {
+            color: #CBD5E0;
+        }
+        
+        .emotion-fear .emotion-bar {
+            background-color: #F56565;
+        }
+        
+        .emotion-anxiety .emotion-bar {
+            background-color: #ED8936;
+        }
+        
+        .emotion-confusion .emotion-bar {
+            background-color: #ECC94B;
+        }
+        
+        .emotion-curiosity .emotion-bar {
+            background-color: #48BB78;
+        }
+        
+        .emotion-hope .emotion-bar {
+            background-color: #4299E1;
+        }
+    </style>
+</head>
+<body class="dark">
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div>
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-1"></i>
+            <i class="fas fa-battery-full ml-1"></i>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="app-container">
+        <div class="header">
+            <div class="header-left">
+                <div class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="page-title">Dream Interpretation</div>
+            </div>
+            <div class="share-button">
+                <i class="fas fa-share-alt"></i>
+            </div>
+        </div>
+        
+        <div class="content-area">
+            <!-- Dream Content Card -->
+            <div class="dream-card">
+                <div class="dream-title">Lost in the Forest</div>
+                <div class="dream-meta">
+                    <div class="dream-date">
+                        <i class="far fa-calendar"></i>
+                        October 15, 2023
+                    </div>
+                    <div class="dream-emotion">
+                        <i class="far fa-frown"></i>
+                        Negative
+                    </div>
+                </div>
+                <div class="dream-content">
+                    I dreamed that I was lost in a dark forest, surrounded by tall trees, and I felt very scared. Suddenly, I saw a light in the distance, and I started walking towards it...
+                </div>
+                <div class="dream-tags">
+                    <div class="dream-tag">Forest</div>
+                    <div class="dream-tag">Lost</div>
+                    <div class="dream-tag">Darkness</div>
+                    <div class="dream-tag">Light</div>
+                </div>
+            </div>
+            
+            <!-- Interpretation Tabs -->
+            <div class="tab-container">
+                <div class="tab active" data-tab="symbols">Symbol Analysis</div>
+                <div class="tab" data-tab="patterns">Pattern Analysis</div>
+                <div class="tab" data-tab="emotions">Emotion Analysis</div>
+            </div>
+            
+            <!-- Symbol Analysis Content -->
+            <div class="tab-content active" id="symbols-content">
+                <div class="symbol-item">
+                    <div class="symbol-icon">
+                        <i class="fas fa-tree"></i>
+                    </div>
+                    <div class="symbol-content">
+                        <div class="symbol-title">Forest</div>
+                        <div class="symbol-description">
+                            In dreams, forests typically symbolize the unknown, the subconscious, or a confusing phase in life. A dark forest may represent challenges or uncertainties you're facing that make you feel lost or disoriented.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="symbol-item">
+                    <div class="symbol-icon">
+                        <i class="fas fa-map-signs"></i>
+                    </div>
+                    <div class="symbol-content">
+                        <div class="symbol-title">Being Lost</div>
+                        <div class="symbol-description">
+                            Being lost symbolizes that you may feel directionless or uncertain about your future in real life. This could be related to career choices, relationships, or personal growth, indicating that you're searching for your path.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="symbol-item">
+                    <div class="symbol-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <div class="symbol-content">
+                        <div class="symbol-title">Distant Light</div>
+                        <div class="symbol-description">
+                            The light seen in darkness represents hope, guidance, and solutions. This suggests that even in difficult times, you can find direction forward, indicating that deep down you know how to overcome your current challenges.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Pattern Analysis Content -->
+            <div class="tab-content" id="patterns-content">
+                <div class="pattern-item">
+                    <div class="pattern-title">
+                        <i class="fas fa-search"></i>
+                        Journey of Finding Direction
+                    </div>
+                    <div class="pattern-description">
+                        This dream reflects a common psychological pattern: seeking direction when facing uncertainty. Your dream suggests you're going through a transition period, and although you feel lost, you're actively looking for a way out.
+                    </div>
+                </div>
+                
+                <div class="pattern-item">
+                    <div class="pattern-title">
+                        <i class="fas fa-balance-scale"></i>
+                        Contrast Between Darkness and Light
+                    </div>
+                    <div class="pattern-description">
+                        The contrast between the dark forest and the distant light symbolizes the balance between challenges and hope. This contrast suggests that you can see positive possibilities even in difficult situations, which is an important sign of psychological resilience.
+                    </div>
+                </div>
+                
+                <div class="pattern-item">
+                    <div class="pattern-title">
+                        <i class="fas fa-arrows-alt"></i>
+                        Transition from Passive to Active
+                    </div>
+                    <div class="pattern-description">
+                        At the beginning of the dream, you were in a passive state (being lost), but after seeing the light, you took active action (walking towards the light). This indicates your ability to recover from difficult situations and take positive steps to change your circumstances.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Emotion Analysis Content -->
+            <div class="tab-content" id="emotions-content">
+                <div class="emotion-analysis">
+                    <div class="emotion-item emotion-fear">
+                        <div class="emotion-label">Fear</div>
+                        <div class="emotion-bar-container">
+                            <div class="emotion-bar" style="width: 75%"></div>
+                        </div>
+                        <div class="emotion-value">75%</div>
+                    </div>
+                    
+                    <div class="emotion-item emotion-anxiety">
+                        <div class="emotion-label">Anxiety</div>
+                        <div class="emotion-bar-container">
+                            <div class="emotion-bar" style="width: 65%"></div>
+                        </div>
+                        <div class="emotion-value">65%</div>
+                    </div>
+                    
+                    <div class="emotion-item emotion-confusion">
+                        <div class="emotion-label">Confusion</div>
+                        <div class="emotion-bar-container">
+                            <div class="emotion-bar" style="width: 60%"></div>
+                        </div>
+                        <div class="emotion-value">60%</div>
+                    </div>
+                    
+                    <div class="emotion-item emotion-curiosity">
+                        <div class="emotion-label">Curiosity</div>
+                        <div class="emotion-bar-container">
+                            <div class="emotion-bar" style="width: 40%"></div>
+                        </div>
+                        <div class="emotion-value">40%</div>
+                    </div>
+                    
+                    <div class="emotion-item emotion-hope">
+                        <div class="emotion-label">Hope</div>
+                        <div class="emotion-bar-container">
+                            <div class="emotion-bar" style="width: 35%"></div>
+                        </div>
+                        <div class="emotion-value">35%</div>
+                    </div>
+                </div>
+                
+                <div class="interpretation-card" style="margin-top: 20px;">
+                    <div class="interpretation-title">Emotional Summary</div>
+                    <div class="interpretation-content">
+                        Your dream primarily reflects emotions of fear and anxiety, which may be related to uncertainties in your real life. However, the presence of hope and curiosity suggests that deep down, you maintain a positive attitude toward facing challenges. This emotional balance is very important for mental health.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mental Health Suggestions -->
+            <div class="interpretation-section">
+                <div class="section-title">
+                    <i class="fas fa-seedling"></i>
+                    Mental Health Suggestions
+                </div>
+                
+                <div class="wellness-card">
+                    <div class="wellness-title">Accept Uncertainty</div>
+                    <div class="wellness-content">
+                        Your dream suggests you may be experiencing some uncertainty. Try practicing acceptance of this state, understanding that uncertainty in life is normal, and you don't always need to find all the answers immediately.
+                    </div>
+                </div>
+                
+                <div class="wellness-card">
+                    <div class="wellness-title">Find Inner Guidance</div>
+                    <div class="wellness-content">
+                        Just as you saw a distant light in your dream, try to find inner guidance through meditation or reflection. Spending 5-10 minutes each day in quiet contemplation can help you see your path forward more clearly.
+                    </div>
+                </div>
+                
+                <div class="wellness-card">
+                    <div class="wellness-title">Take Small Steps</div>
+                    <div class="wellness-content">
+                        When facing complex situations, try breaking big goals into smaller steps. Completing each small step will boost your confidence, just like walking step by step toward the light in the forest.
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Buttons -->
+            <div class="action-button">
+                <i class="fas fa-book"></i>
+                Save to Dream Journal
+            </div>
+            
+            <div class="action-button secondary" style="margin-top: 12px;">
+                <i class="fas fa-redo"></i>
+                Reinterpret
+            </div>
+        </div>
+    </div>
+    
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        // Toggle dark/light mode (for demonstration)
+        document.addEventListener('DOMContentLoaded', () => {
+            const body = document.body;
+            
+            // Detect system color mode
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.classList.add('dark');
+            }
+            
+            // Tab switching
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove all active states
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Add current active state
+                    tab.classList.add('active');
+                    const tabId = tab.getAttribute('data-tab');
+                    document.getElementById(`${tabId}-content`).classList.add('active');
+                });
+            });
+            
+            // Back button
+            const backButton = document.querySelector('.back-button');
+            backButton.addEventListener('click', () => {
+                // In a real app, go back to previous page
+                // window.history.back();
+            });
+            
+            // Share button
+            const shareButton = document.querySelector('.share-button');
+            shareButton.addEventListener('click', () => {
+                // In a real app, open share menu
+                alert('Opening share menu');
+            });
+            
+            // Save button
+            const saveButton = document.querySelector('.action-button');
+            saveButton.addEventListener('click', () => {
+                // In a real app, save interpretation results
+                alert('Interpretation saved to Dream Journal');
+            });
+            
+            // Reinterpret button
+            const reinterpretButton = document.querySelector('.action-button.secondary');
+            reinterpretButton.addEventListener('click', () => {
+                // In a real app, request reinterpretation
+                alert('Reinterpreting dream...');
+            });
+        });
+    </script>
+</body>
+</html>

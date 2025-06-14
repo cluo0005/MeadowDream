@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - iOS Prototype Design</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #5B7FFF;
+            --secondary-color: #A78BFA;
+            --success-color: #34D399;
+            --warning-color: #FBBF24;
+            --error-color: #F87171;
+            --info-color: #60A5FA;
+            --background-light: #FFFFFF;
+            --surface-light: #F9FAFB;
+            --border-light: #E5E7EB;
+            --text-primary-light: #111827;
+            --text-secondary-light: #6B7280;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #F3F4F6;
+        }
+        
+        .iphone-frame {
+            position: relative;
+            width: 375px;
+            height: 812px;
+            background-color: white;
+            border-radius: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin: 2rem auto;
+            border: 10px solid #111827;
+        }
+        
+        .iphone-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 30px;
+            background-color: #111827;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            z-index: 10;
+        }
+        
+        .iphone-screen {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            overflow: hidden;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            background-color: white;
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #111827;
+            border-radius: 3px;
+        }
+        
+        .prototype-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .prototype-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .prototype-title {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: #111827;
+            text-align: center;
+        }
+        
+        .prototype-description {
+            margin-top: 0.5rem;
+            color: #6B7280;
+            text-align: center;
+            max-width: 375px;
+        }
+        
+        @media (max-width: 768px) {
+            .prototype-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Navigation styles */
+        .nav-tabs {
+            display: flex;
+            background-color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .nav-tab {
+            padding: 0.5rem 1rem;
+            margin-right: 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .nav-tab:hover:not(.active) {
+            background-color: var(--surface-light);
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-6">
+            <h1 class="text-3xl font-bold text-gray-900">Meadow Dream - iOS Prototype Design</h1>
+            <p class="mt-2 text-gray-600">High-fidelity interactive prototype based on PRD and User Story Map</p>
+        </div>
+    </header>
+    
+    <main class="container mx-auto px-4 py-8">
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-category="all">All Screens</div>
+            <div class="nav-tab" data-category="onboarding">Onboarding & Login</div>
+            <div class="nav-tab" data-category="record">Dream Recording</div>
+            <div class="nav-tab" data-category="list">Dream List</div>
+            <div class="nav-tab" data-category="interpretation">Interpretation</div>
+            <div class="nav-tab" data-category="tags">Tag Management</div>
+            <div class="nav-tab" data-category="stats">Statistics</div>
+            <div class="nav-tab" data-category="settings">Settings</div>
+        </div>
+        
+        <div class="prototype-grid" id="prototype-container">
+            <!-- Prototypes will be loaded dynamically via JavaScript -->
+        </div>
+    </main>
+    
+    <footer class="bg-gray-100 mt-12">
+        <div class="container mx-auto px-4 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-lg font-semibold text-gray-900">Meadow Dream</h3>
+                    <p class="text-gray-600 mt-1">Dream Recording, AI Interpretation & Positive Guidance App</p>
+                </div>
+                <div>
+                    <p class="text-gray-600">Design Specs & Technical Notes</p>
+                    <div class="flex mt-2">
+                        <a href="../../specs/Design_Spec.md" target="_blank" class="text-indigo-600 hover:text-indigo-800 mr-4">
+                            <i class="fas fa-file-alt mr-1"></i> Design Specs
+                        </a>
+                        <a href="../../Flowchart.md" target="_blank" class="text-indigo-600 hover:text-indigo-800">
+                            <i class="fas fa-project-diagram mr-1"></i> Flowchart
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-200 text-center text-gray-500">
+                <p>Built with HTML + Tailwind CSS + FontAwesome</p>
+                <p class="mt-1">Images from: Unsplash</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Prototype data
+        const prototypes = [
+            // Onboarding & Login
+            {
+                id: 'splash',
+                title: 'Splash Screen',
+                description: 'Brand display screen at app launch',
+                path: 'en/splash.html',
+                category: 'onboarding'
+            },
+            {
+                id: 'onboarding-1',
+                title: 'Onboarding 1',
+                description: 'Feature Introduction - Dream Recording',
+                path: 'en/onboarding-1.html',
+                category: 'onboarding'
+            },
+            {
+                id: 'onboarding-2',
+                title: 'Onboarding 2',
+                description: 'Feature Introduction - AI Interpretation',
+                path: 'en/onboarding-2.html',
+                category: 'onboarding'
+            },
+            {
+                id: 'onboarding-3',
+                title: 'Onboarding 3',
+                description: 'Feature Introduction - Positive Guidance',
+                path: 'en/onboarding-3.html',
+                category: 'onboarding'
+            },
+            {
+                id: 'login',
+                title: 'Login',
+                description: 'Firebase authentication login screen',
+                path: 'en/login.html',
+                category: 'onboarding'
+            },
+            {
+                id: 'signup',
+                title: 'Sign Up',
+                description: 'Firebase authentication registration screen',
+                path: 'en/signup.html',
+                category: 'onboarding'
+            },
+            
+            // Dream Recording
+            {
+                id: 'home-empty',
+                title: 'Home (Empty State)',
+                description: 'Main interface for first-time users',
+                path: 'en/home-empty.html',
+                category: 'record'
+            },
+            {
+                id: 'home',
+                title: 'Home',
+                description: 'Main application interface with dream records',
+                path: 'en/home.html',
+                category: 'record'
+            },
+            {
+                id: 'dream-text-input',
+                title: 'Dream Recording (Text)',
+                description: 'Record dreams using text input',
+                path: 'en/dream-text-input.html',
+                category: 'record'
+            },
+            {
+                id: 'dream-voice-input',
+                title: 'Dream Recording (Voice)',
+                description: 'Record dreams using voice input',
+                path: 'en/dream-voice-input.html',
+                category: 'record'
+            },
+            {
+                id: 'emotion-selection',
+                title: 'Emotion Selection',
+                description: 'Add emotional tags to dreams',
+                path: 'en/emotion-selection.html',
+                category: 'record'
+            },
+            {
+                id: 'tag-selection',
+                title: 'Tag Selection',
+                description: 'Add tags to dreams',
+                path: 'en/tag-selection.html',
+                category: 'record'
+            },
+            
+            // Dream List
+            {
+                id: 'dream-list',
+                title: 'Dream List',
+                description: 'List view of all recorded dreams',
+                path: 'en/dream-list.html',
+                category: 'list'
+            },
+            {
+                id: 'dream-calendar',
+                title: 'Dream Calendar',
+                description: 'Calendar view of dream records',
+                path: 'en/dream-calendar.html',
+                category: 'list'
+            },
+            {
+                id: 'dream-detail',
+                title: 'Dream Detail',
+                description: 'Detailed view of a single dream',
+                path: 'en/dream-detail.html',
+                category: 'list'
+            },
+            {
+                id: 'dream-search',
+                title: 'Dream Search',
+                description: 'Search dream records',
+                path: 'en/dream-search.html',
+                category: 'list'
+            },
+            
+            // Interpretation
+            {
+                id: 'interpretation-loading',
+                title: 'Interpretation Loading',
+                description: 'AI interpretation loading animation',
+                path: 'en/interpretation-loading.html',
+                category: 'interpretation'
+            },
+            {
+                id: 'interpretation-result',
+                title: 'Interpretation Result',
+                description: 'AI interpretation results display',
+                path: 'en/interpretation-result.html',
+                category: 'interpretation'
+            },
+            {
+                id: 'positive-guidance',
+                title: 'Positive Guidance',
+                description: 'Positive psychological guidance based on dreams',
+                path: 'en/positive-guidance.html',
+                category: 'interpretation'
+            },
+            {
+                id: 'interpretation-feedback',
+                title: 'Interpretation Feedback',
+                description: 'Provide feedback on interpretation results',
+                path: 'en/interpretation-feedback.html',
+                category: 'interpretation'
+            },
+            
+            // Tag Management
+            {
+                id: 'tag-library',
+                title: 'Tag Library',
+                description: 'Manage preset and custom tags',
+                path: 'en/tag-library.html',
+                category: 'tags'
+            },
+            {
+                id: 'tag-create',
+                title: 'Create Tag',
+                description: 'Create new custom tags',
+                path: 'en/tag-create.html',
+                category: 'tags'
+            },
+            {
+                id: 'tag-edit',
+                title: 'Edit Tag',
+                description: 'Edit existing custom tags',
+                path: 'en/tag-edit.html',
+                category: 'tags'
+            },
+            
+            // Statistics
+            {
+                id: 'stats-overview',
+                title: 'Statistics Overview',
+                description: 'Basic statistical data of dream records',
+                path: 'en/stats-overview.html',
+                category: 'stats'
+            },
+            {
+                id: 'emotion-trends',
+                title: 'Emotion Trends',
+                description: 'Changes in dream emotions over time',
+                path: 'en/emotion-trends.html',
+                category: 'stats'
+            },
+            {
+                id: 'tag-analysis',
+                title: 'Tag Analysis',
+                description: 'Statistics on dream tag usage',
+                path: 'en/tag-analysis.html',
+                category: 'stats'
+            },
+            
+            // Settings
+            {
+                id: 'settings',
+                title: 'Settings',
+                description: 'Application settings and preferences',
+                path: 'en/settings.html',
+                category: 'settings'
+            },
+            {
+                id: 'notification-settings',
+                title: 'Notification Settings',
+                description: 'Manage application notifications',
+                path: 'en/notification-settings.html',
+                category: 'settings'
+            },
+            {
+                id: 'account-settings',
+                title: 'Account Settings',
+                description: 'Manage user account information',
+                path: 'en/account-settings.html',
+                category: 'settings'
+            },
+            {
+                id: 'lucid-dream-guide',
+                title: 'Lucid Dream Guide',
+                description: 'Tutorial system for lucid dreaming techniques',
+                path: 'en/lucid-dream-guide.html',
+                category: 'settings'
+            }
+        ];
+        
+        // Render prototype list
+        function renderPrototypes(category = 'all') {
+            const container = document.getElementById('prototype-container');
+            container.innerHTML = '';
+            
+            const filteredPrototypes = category === 'all' 
+                ? prototypes 
+                : prototypes.filter(p => p.category === category);
+            
+            filteredPrototypes.forEach(prototype => {
+                const prototypeItem = document.createElement('div');
+                prototypeItem.className = 'prototype-item';
+                prototypeItem.innerHTML = `
+                    <div class="iphone-frame">
+                        <div class="iphone-notch"></div>
+                        <div class="iphone-screen">
+                            <iframe src="${prototype.path}" width="100%" height="100%" frameborder="0"></iframe>
+                        </div>
+                        <div class="home-indicator"></div>
+                    </div>
+                    <h3 class="prototype-title">${prototype.title}</h3>
+                    <p class="prototype-description">${prototype.description}</p>
+                `;
+                container.appendChild(prototypeItem);
+            });
+        }
+        
+        // Initial render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPrototypes();
+            
+            // Tab switching event
+            const tabs = document.querySelectorAll('.nav-tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    renderPrototypes(tab.dataset.category);
+                });
+            });
+        });
+    </script>
+</body>
+</html>

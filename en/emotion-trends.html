@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Trends - Meadow Dream</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+        }
+        
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 83px;
+            padding-bottom: 34px;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #E2E8F0;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #A0AEC0;
+            font-size: 10px;
+        }
+        
+        .tab-item.active {
+            color: #5B7FFF;
+        }
+        
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .emotion-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        .time-filter {
+            display: flex;
+            overflow-x: auto;
+            padding: 8px 0;
+            margin-bottom: 16px;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .time-filter::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .time-option {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            margin-right: 8px;
+            background-color: #EDF2F7;
+            border-radius: 20px;
+            font-size: 14px;
+            white-space: nowrap;
+        }
+        
+        .time-option.active {
+            background-color: #5B7FFF;
+            color: white;
+        }
+        
+        .chart-container {
+            height: 200px;
+            position: relative;
+            margin: 20px 0;
+        }
+        
+        .chart-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+        }
+        
+        .chart-bar {
+            flex: 1;
+            margin: 0 2px;
+            background-color: #5B7FFF;
+            border-radius: 4px 4px 0 0;
+            position: relative;
+        }
+        
+        .chart-label {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            color: #718096;
+            white-space: nowrap;
+        }
+        
+        .chart-grid {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        
+        .grid-line {
+            width: 100%;
+            height: 1px;
+            background-color: #EDF2F7;
+        }
+        
+        .grid-label {
+            position: absolute;
+            left: -25px;
+            font-size: 10px;
+            color: #718096;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div class="flex space-x-2">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <a href="statistics-overview.html" class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="page-title">Emotion Trends</div>
+            </div>
+            <div>
+                <button class="text-blue-500">
+                    <i class="fas fa-share-alt"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- Time Filter -->
+            <div class="time-filter">
+                <div class="time-option">Last Week</div>
+                <div class="time-option active">Last Month</div>
+                <div class="time-option">Last 3 Months</div>
+                <div class="time-option">Last 6 Months</div>
+                <div class="time-option">Last Year</div>
+                <div class="time-option">Custom Range</div>
+            </div>
+            
+            <!-- Emotion Trend Chart -->
+            <div class="card">
+                <h2 class="text-lg font-semibold mb-4">Emotion Trends Over Time</h2>
+                <div class="chart-container">
+                    <!-- Chart Grid -->
+                    <div class="chart-grid">
+                        <div class="grid-line" style="top: 0%;"><span class="grid-label">100%</span></div>
+                        <div class="grid-line" style="top: 25%;"><span class="grid-label">75%</span></div>
+                        <div class="grid-line" style="top: 50%;"><span class="grid-label">50%</span></div>
+                        <div class="grid-line" style="top: 75%;"><span class="grid-label">25%</span></div>
+                        <div class="grid-line" style="top: 100%;"><span class="grid-label">0%</span></div>
+                    </div>
+                    
+                    <!-- Chart Line -->
+                    <div class="chart-line">
+                        <div class="chart-bar" style="height: 30%;">
+                            <div class="chart-label">Week 1</div>
+                        </div>
+                        <div class="chart-bar" style="height: 45%;">
+                            <div class="chart-label">Week 2</div>
+                        </div>
+                        <div class="chart-bar" style="height: 60%;">
+                            <div class="chart-label">Week 3</div>
+                        </div>
+                        <div class="chart-bar" style="height: 40%;">
+                            <div class="chart-label">Week 4</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-xs text-gray-500 mt-6 text-center">Showing positive emotion percentage by week</div>
+            </div>
+            
+            <!-- Emotion Distribution -->
+            <div class="card">
+                <h2 class="text-lg font-semibold mb-4">Emotion Distribution</h2>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="emotion-dot bg-yellow-400"></div>
+                            <span>Joy</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-48 bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-yellow-400 h-2.5 rounded-full" style="width: 35%"></div>
+                            </div>
+                            <span class="ml-2 text-sm">35%</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="emotion-dot bg-blue-400"></div>
+                            <span>Confusion</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-48 bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-blue-400 h-2.5 rounded-full" style="width: 25%"></div>
+                            </div>
+                            <span class="ml-2 text-sm">25%</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="emotion-dot bg-red-400"></div>
+                            <span>Fear</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-48 bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-red-400 h-2.5 rounded-full" style="width: 20%"></div>
+                            </div>
+                            <span class="ml-2 text-sm">20%</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="emotion-dot bg-green-400"></div>
+                            <span>Surprise</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-48 bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-green-400 h-2.5 rounded-full" style="width: 15%"></div>
+                            </div>
+                            <span class="ml-2 text-sm">15%</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="emotion-dot bg-purple-400"></div>
+                            <span>Others</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-48 bg-gray-200 rounded-full h-2.5">
+                                <div class="bg-purple-400 h-2.5 rounded-full" style="width: 5%"></div>
+                            </div>
+                            <span class="ml-2 text-sm">5%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Emotion Insights -->
+            <div class="card">
+                <h2 class="text-lg font-semibold mb-2">Insights</h2>
+                <div class="text-sm text-gray-600">
+                    <p class="mb-2">Your dreams show a positive trend this month with joy being your predominant emotion (35%).</p>
+                    <p class="mb-2">Compared to last month, your fear-related dreams have decreased by 8%, which may indicate reduced anxiety in your daily life.</p>
+                    <p>Dreams with confusion emotions often correlate with your 'Water' and 'Chase' tags, suggesting these themes may represent areas of uncertainty.</p>
+                </div>
+                <div class="mt-4 p-3 bg-blue-50 rounded-lg">
+                    <div class="flex items-start">
+                        <div class="text-blue-500 mr-3 mt-1">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm font-medium text-blue-800">Wellness Suggestion</h3>
+                            <p class="text-xs text-blue-600 mt-1">Consider journaling about your confusion themes to gain clarity. Your positive emotion trend suggests your current mindfulness practices are effective.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <a href="#" class="tab-item">
+                <div class="tab-icon"><i class="fas fa-home"></i></div>
+                <div>Home</div>
+            </a>
+            <a href="#" class="tab-item">
+                <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+                <div>Record</div>
+            </a>
+            <a href="#" class="tab-item active">
+                <div class="tab-icon"><i class="fas fa-chart-pie"></i></div>
+                <div>Stats</div>
+            </a>
+            <a href="#" class="tab-item">
+                <div class="tab-icon"><i class="fas fa-cog"></i></div>
+                <div>Settings</div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Settings - Meadow Dream</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+        }
+        
+        .header {
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #E2E8F0;
+        }
+        
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #5B7FFF;
+            margin-right: 8px;
+            cursor: pointer;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        .tab-bar {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 83px;
+            padding-bottom: 34px;
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #E2E8F0;
+        }
+        
+        .tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #A0AEC0;
+            font-size: 10px;
+        }
+        
+        .tab-item.active {
+            color: #5B7FFF;
+        }
+        
+        .tab-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 16px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #E2E8F0;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .toggle-slider {
+            background-color: #5B7FFF;
+        }
+        
+        input:checked + .toggle-slider:before {
+            transform: translateX(22px);
+        }
+        
+        .time-picker {
+            display: flex;
+            align-items: center;
+            background-color: #EDF2F7;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .time-picker-icon {
+            color: #5B7FFF;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div>9:41</div>
+        <div class="flex space-x-2">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi"></i>
+            <i class="fas fa-battery-full"></i>
+        </div>
+    </div>
+    
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <a href="settings.html" class="back-button">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+                <div class="page-title">Notification Settings</div>
+            </div>
+        </div>
+        
+        <!-- Content Area -->
+        <div class="content-area">
+            <!-- General Notifications -->
+            <div class="card">
+                <h2 class="text-lg font-semibold mb-4">General Notifications</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Push Notifications</h3>
+                            <p class="text-sm text-gray-500 mt-1">Enable all app notifications</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">In-App Notifications</h3>
+                            <p class="text-sm text-gray-500 mt-1">Show notifications within the app</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dream Recording Reminders -->
+            <div class="card">
+                <h2 class="text-lg font-semibold mb-4">Dream Recording Reminders</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Morning Reminder</h3>
+                            <p class="text-sm text-gray-500 mt-1">Remind you to record dreams after waking up</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="pl-0 pr-0">
+                        <h3 class="font-medium mb-2">Reminder Time</h3>
+                        <div class="time-picker">
+                            <i class="fas fa-clock time-picker-icon"></i>
+                            <span>7:30 AM</span>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">You'll receive a notification at this time every day</p>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Weekend Reminders</h3>
+                            <p class="text-sm text-gray-500 mt-1">Include Saturday and Sunday</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Evening Reflection</h3>
+                            <p class="text-sm text-gray-500 mt-1">Remind you to review and edit your dream records</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Wellness Guidance Notifications -->
+            <div class="card">
+                <h2 class="text-lg font-semibold mb-4">Wellness Guidance</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Positive Guidance</h3>
+                            <p class="text-sm text-gray-500 mt-1">Receive personalized wellness suggestions</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Pattern Insights</h3>
+                            <p class="text-sm text-gray-500 mt-1">Get notified about significant dream patterns</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Weekly Summary</h3>
+                            <p class="text-sm text-gray-500 mt-1">Receive a weekly report of your dream patterns</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Do Not Disturb -->
+            <div class="card">
+                <h2 class="text-lg font-semibold mb-4">Do Not Disturb</h2>
+                
+                <div class="space-y-6">
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="font-medium">Quiet Hours</h3>
+                            <p class="text-sm text-gray-500 mt-1">No notifications during specified hours</p>
+                        </div>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                    
+                    <div class="pl-0 pr-0 opacity-50">
+                        <div class="flex justify-between">
+                            <div class="time-picker w-5/12">
+                                <i class="fas fa-moon time-picker-icon"></i>
+                                <span>10:00 PM</span>
+                            </div>
+                            <div class="flex items-center">
+                                <span class="text-gray-400">to</span>
+                            </div>
+                            <div class="time-picker w-5/12">
+                                <i class="fas fa-sun time-picker-icon"></i>
+                                <span>7:00 AM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center text-xs text-gray-500 mt-4 mb-8">
+                You can also manage notifications in your device settings.
+            </div>
+        </div>
+        
+        <!-- Tab Bar -->
+        <div class="tab-bar">
+            <a href="#" class="tab-item">
+                <div class="tab-icon"><i class="fas fa-home"></i></div>
+                <div>Home</div>
+            </a>
+            <a href="#" class="tab-item">
+                <div class="tab-icon"><i class="fas fa-plus-circle"></i></div>
+                <div>Record</div>
+            </a>
+            <a href="#" class="tab-item">
+                <div class="tab-icon"><i class="fas fa-chart-pie"></i></div>
+                <div>Stats</div>
+            </a>
+            <a href="#" class="tab-item active">
+                <div class="tab-icon"><i class="fas fa-cog"></i></div>
+                <div>Settings</div>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+</body>
+</html>

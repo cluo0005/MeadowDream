@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meadow Dream - Positive Guidance</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-color: #F5F7FA;
+            color: #1A202C;
+            overflow: hidden;
+        }
+        
+        .dark body {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            height: 44px;
+            background-color: #F5F7FA;
+            font-size: 14px;
+            font-weight: 600;
+            color: #1A202C;
+        }
+        
+        .dark .status-bar {
+            background-color: #1A202C;
+            color: #F7FAFC;
+        }
+        
+        .home-indicator {
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 135px;
+            height: 5px;
+            background-color: #CBD5E0;
+            border-radius: 3px;
+        }
+        
+        .dark .home-indicator {
+            background-color: #4A5568;
+        }
+        
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: calc(100% - 44px - 34px);
+            padding: 0 20px;
+            overflow-y: auto;
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            background-color: #F5F7FA;
+            z-index: 10;
+        }
+        
+        .dark .header {
+            background-color: #1A202C;
+        }
+        
+        .back-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1A202C;
+            font-size: 20px;
+        }
+        
+        .dark .back-button {
+            color: #F7FAFC;
+        }
+        
+        .page-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .bookmark-button {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5B7FFF;
+            font-size: 20px;
+        }
+        
+        .guidance-container {
+            padding-bottom: 100px;
+        }
+        
+        .guidance-header {
+            margin-bottom: 24px;
+        }
+        
+        .guidance-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #5B7FFF;
+            margin-bottom: 12px;
+        }
+        
+        .guidance-subtitle {
+            font-size: 16px;
+            color: #4A5568;
+            line-height: 1.5;
+        }
+        
+        .dark .guidance-subtitle {
+            color: #E2E8F0;
+        }
+        
+        .guidance-image {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            object-fit: cover;
+            margin-bottom: 24px;
+        }
+        
+        .guidance-section {
+            margin-bottom: 32px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: #5B7FFF;
+        }
+        
+        .section-content {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4A5568;
+        }
+        
+        .dark .section-content {
+            color: #E2E8F0;
+        }
+        
+        .practice-card {
+            background-color: #EDF2F7;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .dark .practice-card {
+            background-color: #2D3748;
+        }
+        
+        .practice-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .practice-title i {
+            color: #5B7FFF;
+        }
+        
+        .practice-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .practice-step {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #5B7FFF;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #4A5568;
+        }
+        
+        .dark .step-text {
+            color: #E2E8F0;
+        }
+        
+        .quote-card {
+            background-color: #5B7FFF;
+            border-radius: 16px;
+            padding: 24px;
+            color: white;
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .quote-icon {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 80px;
+            opacity: 0.1;
+        }
+        
+        .quote-text {
+            font-size: 18px;
+            line-height: 1.6;
+            font-weight: 500;
+            font-style: italic;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .quote-author {
+            font-size: 14px;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .journal-prompt {
+            background-color: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 24px;
+        }
+        
+        .dark .journal-prompt {
+            background-color: #2D3748;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .prompt-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .prompt-title i {
+            color: #5B7FFF;
+        }
+        
+        .prompt-text {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #4A5568;
+            margin-bottom: 16px;
+        }
+        
+        .dark .prompt-text {
+            color: #E2E8F0;
+        }
+        
+        .prompt-button {
+            background-color: #5B7FFF;
+            border-radius: 8px;
+            padding: 10px 16px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        
+        .prompt-button:hover {
+            background-color: #4A6DE5;
+        }
+        
+        .resources-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .resource-item {
+            background-color: #2D3748;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        .resource-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: #EDF2F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5B7FFF;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        
+        .dark .resource-icon {
+            background-color: #4A5568;
+        }
+        
+        .resource-info {
+            flex-grow: 1;
+        }
+        
+        .resource-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .resource-description {
+            font-size: 13px;
+            color: #718096;
+        }
+        
+        .dark .resource-description {
+            color: #A0AEC0;
+        }
+        
+        .resource-arrow {
+            color: #A0AEC0;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        
+        .dark .resource-arrow {
+            color: #718096;
+        }
+        
+        .action-buttons {
+            position: fixed;
+            bottom: 34px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 16px 20px;
+            background-color: #F5F7FA;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .dark .action-buttons {
+            background-color: #1A202C;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .primary-button {
+            background-color: #5B7FFF;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            flex-grow: 1;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .primary-button:hover {
+            background-color: #4A6DE5;
+        }
+        
+        .secondary-button {
+            background-color: #EDF2F7;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #4A5568;
+            flex-grow: 1;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .dark .secondary-button {
+            background-color: #2D3748;
+            color: #E2E8F0;
+        }
+        
+        .secondary-button:hover {
+            background-color: #E2E8F0;
+        }
+        
+        .dark .secondary-button:hover {
+            background-color: #4A5568;
+        }
+    </style>
+</head>
+<body>
+    <!-- Status Bar -->
+    <div class="status-bar">
+        <div class="status-time">9:41</div>
+        <div class="status-icons">
+            <i class="fas fa-signal"></i>
+            <i class="fas fa-wifi ml-2"></i>
+            <i class="fas fa-battery-full ml-2"></i>
+        </div>
+    </div>
+    
+    <!-- App Container -->
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="back-button">
+                <i class="fas fa-chevron-left"></i>
+            </div>
+            <div class="page-title">Positive Guidance</div>
+            <div class="bookmark-button">
+                <i class="far fa-bookmark"></i>
+            </div>
+        </div>
+        
+        <!-- Guidance Content -->
+        <div class="guidance-container">
+            <div class="guidance-header">
+                <h1 class="guidance-title">Embracing New Perspectives</h1>
+                <p class="guidance-subtitle">Practical guidance to help you gain fresh insights and rise above limitations based on your dream.</p>
+            </div>
+            
+            <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Mountain view perspective" class="guidance-image">
+            <!-- Image from Unsplash: https://unsplash.com/photos/aerial-photography-of-mountain-range-8Gg2Ne_uTcM -->
+            
+            <div class="guidance-section">
+                <h2 class="section-title">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Understanding Your Dream</span>
+                </h2>
+                <div class="section-content">
+                    <p>Your dream about flying above a forest after touching glowing water reveals your readiness for transformation and gaining new perspectives. The forest represents your journey through the unknown, while the magical water symbolizes emotional insight that empowers you to rise above challenges.</p>
+                    <p>The distant city with golden lights represents your aspirations and goals. This dream suggests you're at a point where you can transcend current limitations and see your path forward with greater clarity.</p>
+                </div>
+            </div>
+            
+            <div class="guidance-section">
+                <h2 class="section-title">
+                    <i class="fas fa-hands-helping"></i>
+                    <span>Practical Exercises</span>
+                </h2>
+                
+                <div class="practice-card">
+                    <div class="practice-title">
+                        <i class="fas fa-mountain"></i>
+                        <span>The Mountaintop Perspective</span>
+                    </div>
+                    <div class="practice-steps">
+                        <div class="practice-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Find a quiet space where you won't be disturbed for 10-15 minutes.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Close your eyes and imagine yourself standing on a mountaintop, looking down at your life from above.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">From this elevated perspective, visualize your current challenges as small parts of a larger landscape.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Notice patterns, connections, and potential paths forward that weren't visible from ground level.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">5</div>
+                            <div class="step-text">Before ending the visualization, identify one insight or action step to take with you.</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="practice-card">
+                    <div class="practice-title">
+                        <i class="fas fa-water"></i>
+                        <span>Transformative Journaling</span>
+                    </div>
+                    <div class="practice-steps">
+                        <div class="practice-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Set aside 15 minutes with your journal or a blank document.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Write about a current limitation or challenge you're facing.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Then, imagine you've touched the "glowing water" from your dream and can now see this situation from above.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Write from this new perspective, exploring insights and possibilities that weren't apparent before.</div>
+                        </div>
+                        <div class="practice-step">
+                            <div class="step-number">5</div>
+                            <div class="step-text">Conclude by noting three specific actions you can take based on these new insights.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="quote-card">
+                <div class="quote-icon">
+                    <i class="fas fa-quote-right"></i>
+                </div>
+                <div class="quote-text">
+                    "The real voyage of discovery consists not in seeking new landscapes, but in having new eyes."
+                </div>
+                <div class="quote-author">— Marcel Proust</div>
+            </div>
+            
+            <div class="guidance-section">
+                <h2 class="section-title">
+                    <i class="fas fa-feather"></i>
+                    <span>Journal Prompts</span>
+                </h2>
+                
+                <div class="journal-prompt">
+                    <div class="prompt-title">
+                        <i class="fas fa-pen"></i>
+                        <span>Reflection Prompt</span>
+                    </div>
+                    <div class="prompt-text">
+                        What current situation in your life would benefit from seeing it from a higher perspective? What might you notice if you could "fly above" this challenge?
+                    </div>
+                    <div class="prompt-button">
+                        <i class="fas fa-edit"></i>
+                        <span>Start Writing</span>
+                    </div>
+                </div>
+                
+                <div class="journal-prompt">
+                    <div class="prompt-title">
+                        <i class="fas fa-pen"></i>
+                        <span>Exploration Prompt</span>
+                    </div>
+                    <div class="prompt-text">
+                        What is your "golden city" on the horizon? Describe a goal or aspiration that feels distant but illuminates your path forward. What small steps could bring you closer to it?
+                    </div>
+                    <div class="prompt-button">
+                        <i class="fas fa-edit"></i>
+                        <span>Start Writing</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guidance-section">
+                <h2 class="section-title">
+                    <i class="fas fa-book"></i>
+                    <span>Additional Resources</span>
+                </h2>
+                
+                <div class="resources-list">
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="resource-info">
+                            <div class="resource-title">"Man's Search for Meaning" by Viktor Frankl</div>
+                            <div class="resource-description">A powerful book about finding meaning and perspective in difficult circumstances</div>
+                        </div>
+                        <div class="resource-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="resource-info">
+                            <div class="resource-title">Guided Meditation: Gaining Perspective</div>
+                            <div class="resource-description">A 15-minute meditation to help you see challenges from a new viewpoint</div>
+                        </div>
+                        <div class="resource-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="resource-item">
+                        <div class="resource-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <div class="resource-info">
+                            <div class="resource-title">TED Talk: The Power of Perspective</div>
+                            <div class="resource-description">How changing your viewpoint can transform your experience</div>
+                        </div>
+                        <div class="resource-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+        <div class="secondary-button">Save to Journal</div>
+        <div class="primary-button">Practice Now</div>
+    </div>
+    
+    <!-- Home Indicator -->
+    <div class="home-indicator"></div>
+    
+    <script>
+        // Detect system color scheme
+        const body = document.body;
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            body.classList.add('dark');
+        }
+        
+        // Back button event
+        document.querySelector('.back-button').addEventListener('click', () => {
+            console.log('Back button clicked');
+            // In a real app, this would navigate back
+            window.location.href = 'interpretation-result.html';
+        });
+        
+        // Bookmark button event
+        document.querySelector('.bookmark-button').addEventListener('click', () => {
+            const bookmarkIcon = document.querySelector('.bookmark-button i');
+            if (bookmarkIcon.classList.contains('far')) {
+                bookmarkIcon.classList.remove('far');
+                bookmarkIcon.classList.add('fas');
+            } else {
+                bookmarkIcon.classList.remove('fas');
+                bookmarkIcon.classList.add('far');
+            }
+        });
+        
+        // Journal prompt buttons
+        document.querySelectorAll('.prompt-button').forEach(button => {
+            button.addEventListener('click', () => {
+                console.log('Journal prompt button clicked');
+                // In a real app, this would open the journaling interface
+            });
+        });
+        
+        // Resource items
+        document.querySelectorAll('.resource-item').forEach(item => {
+            item.addEventListener('click', () => {
+                console.log('Resource item clicked');
+                // In a real app, this would open the resource
+            });
+        });
+        
+        // Save to journal button
+        document.querySelector('.secondary-button').addEventListener('click', () => {
+            console.log('Save to journal button clicked');
+            // In a real app, this would save the guidance to the journal
+        });
+        
+        // Practice now button
+        document.querySelector('.primary-button').addEventListener('click', () => {
+            console.log('Practice now button clicked');
+            // In a real app, this would start the practice
+        });
+    </script>
+</body>
+</html>
