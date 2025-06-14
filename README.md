@@ -46,7 +46,7 @@ We used Trae's multi-agent system to speed up development and decision-making:
   - Implemented responsive UI (UIKit + SwiftUI)  
   - Performed testing and debugging
 
-These AI agents **augmented**, our human effort — allowing rapid MVP iteration within 24 hours of a 48-hour hackathon window.
+These AI agents **augmented** our human effort — allowing rapid MVP iteration within 48-hour hackathon window.
 
 
 ---
@@ -126,7 +126,7 @@ By combining lucid dream patterns with emotional self-reflection and AI-guided g
 Built with ❤️ using:  
 **Trae AI IDE** – for structured agent-based collaboration  
 **Novita AI** – for LLM-driven dream interpretation  
-as part of the **Zero Limits Hackathon**
+as part of the **Zero Limits Hackathon | Lablab.ai**
 
 
 ## 📺 Optional: Video Demo
