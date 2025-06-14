@@ -52,9 +52,39 @@ These AI agents **augmented**, our human effort — allowing rapid MVP iteration
 ---
 
 ## 📂 App Structure
-<pre lang="markdown"><code>```plaintext MeadowDream/ ├── MeadowDreamApp.swift ├── Views/ │ ├── MainTabView.swift │ ├── OnboardingView.swift │ ├── LoginView.swift │ ├── SignupView.swift │ ├── HomeView.swift │ ├── DreamRecordingView.swift │ ├── DreamListView.swift │ ├── DreamDetailView.swift │ ├── DreamSearchView.swift │ ├── InterpretationView.swift │ ├── InterpretationResultView.swift │ ├── PositiveGuidanceView.swift │ ├── FeedbackView.swift │ ├── TagLibraryView.swift │ ├── TagCreateView.swift │ ├── TagEditView.swift │ ├── StatsOverviewView.swift │ ├── EmotionTrendsView.swift │ ├── TagAnalysisView.swift │ ├── SettingsView.swift │ ├── NotificationSettingsView.swift │ ├── AccountSettingsView.swift │ └── LucidDreamGuideView.swift ├── Models/ │ └── Dream.swift ├── Resources/ │ └── Assets.xcassets └── README.md ```</code></pre>
-
-
+```
+MeadowDream/
+├── MeadowDreamApp.swift
+├── Views/
+│   ├── MainTabView.swift
+│   ├── OnboardingView.swift
+│   ├── LoginView.swift
+│   ├── SignupView.swift
+│   ├── HomeView.swift
+│   ├── DreamRecordingView.swift
+│   ├── DreamListView.swift
+│   ├── DreamDetailView.swift
+│   ├── DreamSearchView.swift
+│   ├── InterpretationView.swift
+│   ├── InterpretationResultView.swift
+│   ├── PositiveGuidanceView.swift
+│   ├── FeedbackView.swift
+│   ├── TagLibraryView.swift
+│   ├── TagCreateView.swift
+│   ├── TagEditView.swift
+│   ├── StatsOverviewView.swift
+│   ├── EmotionTrendsView.swift
+│   ├── TagAnalysisView.swift
+│   ├── SettingsView.swift
+│   ├── NotificationSettingsView.swift
+│   ├── AccountSettingsView.swift
+│   └── LucidDreamGuideView.swift
+├── Models/
+│   └── Dream.swift
+├── Resources/
+│   └── Assets.xcassets
+└── README.md
+```
 
 ---
 
