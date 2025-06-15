@@ -37,6 +37,9 @@ struct MeadowDreamApp: App {
             }
             .preferredColorScheme(isDarkMode ? .dark : .light)
             .onAppear {
+                // 重置onboarding状态，确保每次启动都显示完整流程
+                hasSeenOnboarding = false
+                
                 // Hide splash screen after 3 seconds
                 DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                     withAnimation(.easeInOut(duration: 0.5)) {

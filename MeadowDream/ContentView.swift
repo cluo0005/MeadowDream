@@ -229,29 +229,6 @@ struct DreamHomeView: View {
                         .foregroundColor(.secondary)
                 }
             }
-            
-            Spacer()
-            
-            // Profile Button
-            Button(action: {
-                showingProfile = true
-            }) {
-                if let user = authManager.user {
-                    Text(user.initials)
-                        .font(.system(size: 16, weight: .semibold))
-                        .foregroundColor(.white)
-                        .frame(width: 44, height: 44)
-                        .background(Color(red: 0.357, green: 0.498, blue: 1.0))
-                        .clipShape(Circle())
-                } else {
-                    Image(systemName: "person.circle")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(.primary)
-                        .frame(width: 44, height: 44)
-                        .background(Color(.secondarySystemFill))
-                        .clipShape(Circle())
-                }
-            }
         }
     }
     

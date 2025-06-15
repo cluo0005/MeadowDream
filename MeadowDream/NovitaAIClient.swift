@@ -33,8 +33,8 @@ class NovitaAIClient {
 
         Key Symbols Analysis
         [Symbol Name]
-        - Universal meaning: [Psychological/cultural context]
-        - In your dream: [Personalized interpretation]
+        [Psychological/cultural context]
+        [Personalized interpretation]
 
         [Repeat for 3-5 key symbols found in the dream]
 
@@ -42,8 +42,9 @@ class NovitaAIClient {
         [Trace emotion progression through dream stages]
 
         Personal Insights
-        1. [Actionable non-prescriptive suggestion]
-        2. [Second suggestion]
+        [Actionable non-prescriptive suggestion]
+
+        [Second suggestion]
         
         === LUCID DREAM GUIDANCE ===
         
@@ -60,9 +61,52 @@ class NovitaAIClient {
         [Science-backed techniques for improving lucid dreaming based on dream content]
         
         === SYMBOLS FORMAT ===
-        Symbol: [single word only] | Meaning: [brief positive meaning, 10-15 words max]
-        Symbol: [single word only] | Meaning: [brief positive meaning, 10-15 words max]
+        Symbol: [single word only] | Meaning: [brief positive meaning, 8 words max]
+        Symbol: [single word only] | Meaning: [brief positive meaning, 8 words max]
         [Continue for each symbol found]
+
+        EXAMPLE OUTPUT FORMAT:
+
+        === INTERPRETATION SECTION ===
+        
+        Overall Theme
+        Your dream may suggest a desire for freedom and perspective in your current life situation, reflecting a need to rise above daily challenges.
+
+        Key Symbols Analysis
+        Flying
+        In Jungian psychology, flying represents transcendence and liberation from earthly concerns.
+        Your ability to fly suggests you're ready to overcome current limitations and gain new perspective on life challenges.
+
+        City
+        Cities symbolize community, civilization, and the collective unconscious.
+        The city below may represent your social world and responsibilities that you're viewing from a new vantage point.
+
+        Emotional Journey
+        The dream progresses from initial wonder at flight to peaceful observation, suggesting a journey from excitement about new possibilities to calm acceptance of your elevated perspective.
+
+        Personal Insights
+        Consider what aspects of your life might benefit from a "bird's eye view" - step back from immediate concerns to see the bigger picture.
+
+        Practice meditation or mindfulness to cultivate the sense of peaceful detachment you experienced while flying.
+        
+        === LUCID DREAM GUIDANCE ===
+        
+        Dream Awareness Techniques
+        When you notice you're flying, perform a reality check by looking at your hands or trying to read text twice.
+        
+        Reality Check Triggers
+        Any sensation of floating, unusual movement, or being high above ground should trigger lucidity awareness.
+        
+        Lucid Action Suggestions
+        If you become lucid while flying, try directing your flight path toward specific destinations or practicing aerial maneuvers.
+        
+        Practice Recommendations
+        Before sleep, visualize yourself flying and set the intention to recognize this as a dream sign for lucid dreaming practice.
+        
+        === SYMBOLS FORMAT ===
+        Symbol: Flying | Meaning: Freedom and transcendence over limitations
+        Symbol: City | Meaning: Community and social connections
+        Symbol: Night | Meaning: Mystery and subconscious exploration
 
         Rules:
         - Prioritize emotions and key elements from the dream
@@ -82,6 +126,7 @@ class NovitaAIClient {
         - GUIDANCE MUST BE POSITIVE, UPLIFTING, AND ENCOURAGING
         - Focus on growth, learning, and positive transformation in guidance
         - Reframe challenges as opportunities for personal development
+        - FOLLOW THE EXACT FORMAT SHOWN IN THE EXAMPLE ABOVE
 
         Dream to interpret: \(dreamContent)
         """
@@ -114,41 +159,77 @@ class NovitaAIClient {
             let trimmedLine = line.trimmingCharacters(in: .whitespacesAndNewlines)
             print("📝 Line \(index): '\(trimmedLine)'")
             
-            // Check for section headers
-            if trimmedLine.uppercased().contains("=== INTERPRETATION SECTION ===") {
+            // Enhanced section header detection
+            if trimmedLine.uppercased().contains("=== INTERPRETATION SECTION ===") ||
+               trimmedLine.uppercased().contains("INTERPRETATION SECTION") {
                 currentSection = "interpretation"
                 print("⭐ Found interpretation section at line \(index)")
                 continue
-            } else if trimmedLine.uppercased().contains("=== LUCID DREAM GUIDANCE ===") {
+            } else if trimmedLine.uppercased().contains("=== LUCID DREAM GUIDANCE ===") ||
+                      trimmedLine.uppercased().contains("LUCID DREAM GUIDANCE") {
                 currentSection = "guidance"
                 print("⭐ Found guidance section at line \(index)")
                 continue
-            } else if trimmedLine.uppercased().contains("=== SYMBOLS FORMAT ===") || 
-                      trimmedLine.uppercased().contains("SYMBOL:") ||
-                      (trimmedLine.contains("|") && trimmedLine.lowercased().contains("symbol")) {
+            } else if trimmedLine.uppercased().contains("=== SYMBOLS FORMAT ===") ||
+                      trimmedLine.uppercased().contains("SYMBOLS FORMAT") ||
+                      (trimmedLine.uppercased().contains("SYMBOL:") && trimmedLine.contains("|")) {
                 currentSection = "symbols"
                 print("⭐ Found symbols section at line \(index)")
                 
                 // If this line already contains a symbol, parse it
-                if trimmedLine.contains("|") {
+                if trimmedLine.contains("|") && trimmedLine.uppercased().contains("SYMBOL:") {
                     parseSymbolLine(trimmedLine, into: &symbols)
                 }
                 continue
             }
             
+            // Skip empty lines and section dividers
+            if trimmedLine.isEmpty || trimmedLine.starts(with: "===") || trimmedLine.starts(with: "---") {
+                continue
+            }
+            
             // Process content based on current section
-            if currentSection == "interpretation" && !trimmedLine.isEmpty {
+            switch currentSection {
+            case "interpretation":
                 if !interpretation.isEmpty {
                     interpretation += "\n"
                 }
                 interpretation += trimmedLine
-            } else if currentSection == "guidance" && !trimmedLine.isEmpty {
+                
+            case "guidance":
                 if !guidance.isEmpty {
                     guidance += "\n"
                 }
                 guidance += trimmedLine
-            } else if currentSection == "symbols" && trimmedLine.contains("|") {
-                parseSymbolLine(trimmedLine, into: &symbols)
+                
+            case "symbols":
+                if trimmedLine.contains("|") {
+                    parseSymbolLine(trimmedLine, into: &symbols)
+                }
+                
+            default:
+                // If no section is detected yet, try to infer from content
+                if currentSection.isEmpty {
+                    if trimmedLine.uppercased().contains("OVERALL THEME") ||
+                       trimmedLine.uppercased().contains("KEY SYMBOLS") ||
+                       trimmedLine.uppercased().contains("EMOTIONAL JOURNEY") ||
+                       trimmedLine.uppercased().contains("PERSONAL INSIGHTS") {
+                        currentSection = "interpretation"
+                        if !interpretation.isEmpty {
+                            interpretation += "\n"
+                        }
+                        interpretation += trimmedLine
+                    } else if trimmedLine.uppercased().contains("DREAM AWARENESS") ||
+                              trimmedLine.uppercased().contains("REALITY CHECK") ||
+                              trimmedLine.uppercased().contains("LUCID ACTION") ||
+                              trimmedLine.uppercased().contains("PRACTICE RECOMMENDATIONS") {
+                        currentSection = "guidance"
+                        if !guidance.isEmpty {
+                            guidance += "\n"
+                        }
+                        guidance += trimmedLine
+                    }
+                }
             }
         }
         
@@ -164,22 +245,102 @@ class NovitaAIClient {
             print("  • \(symbol.symbol): \(symbol.meaning)")
         }
         
-        // Enhanced fallback: if no symbols were parsed, try multiple extraction methods
-        if symbols.isEmpty {
-            print("⚠️ No symbols parsed from AI response, trying enhanced extraction...")
+        // Enhanced fallback: if sections are empty or symbols missing, try multiple extraction methods
+        if interpretation.isEmpty || guidance.isEmpty || symbols.isEmpty {
+            print("⚠️ Some sections missing, trying enhanced extraction...")
             
-            // Method 1: Look for symbols in the Key Symbols Analysis section
-            symbols = extractSymbolsFromAnalysisSection(response)
+            // Try to extract from the full response if sections are empty
+            if interpretation.isEmpty {
+                interpretation = extractInterpretationFallback(from: response)
+            }
             
-            // Method 2: If still empty, use fallback extraction
+            if guidance.isEmpty {
+                guidance = extractGuidanceFallback(from: response)
+            }
+            
             if symbols.isEmpty {
-                print("🔄 Using fallback symbol extraction")
-                symbols = extractFallbackSymbols(from: interpretation + " " + guidance)
+                // Method 1: Look for symbols in the Key Symbols Analysis section
+                symbols = extractSymbolsFromAnalysisSection(response)
+                
+                // Method 2: If still empty, use fallback extraction
+                if symbols.isEmpty {
+                    print("🔄 Using fallback symbol extraction")
+                    symbols = extractFallbackSymbols(from: interpretation + " " + guidance)
+                }
             }
         }
         
         print("🎯 Final result: \(symbols.count) symbols extracted")
         return DreamInterpretationResponse(interpretation: interpretation, guidance: guidance, symbols: symbols)
+    }
+    
+    private func extractInterpretationFallback(from response: String) -> String {
+        print("🔄 Using fallback interpretation extraction")
+        let lines = response.components(separatedBy: .newlines)
+        var result = ""
+        var capturing = false
+        
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            // Start capturing after interpretation section or key interpretation keywords
+            if trimmed.uppercased().contains("INTERPRETATION") ||
+               trimmed.uppercased().contains("OVERALL THEME") ||
+               trimmed.uppercased().contains("KEY SYMBOLS") {
+                capturing = true
+                if !trimmed.contains("===") && !trimmed.isEmpty {
+                    result += trimmed + "\n"
+                }
+                continue
+            }
+            
+            // Stop capturing when we hit guidance section
+            if capturing && (trimmed.uppercased().contains("LUCID DREAM") ||
+                           trimmed.uppercased().contains("GUIDANCE") ||
+                           trimmed.uppercased().contains("SYMBOLS FORMAT")) {
+                break
+            }
+            
+            if capturing && !trimmed.isEmpty && !trimmed.starts(with: "===") {
+                result += trimmed + "\n"
+            }
+        }
+        
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    private func extractGuidanceFallback(from response: String) -> String {
+        print("🔄 Using fallback guidance extraction")
+        let lines = response.components(separatedBy: .newlines)
+        var result = ""
+        var capturing = false
+        
+        for line in lines {
+            let trimmed = line.trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            // Start capturing after guidance section keywords
+            if trimmed.uppercased().contains("LUCID DREAM") ||
+               trimmed.uppercased().contains("DREAM AWARENESS") ||
+               trimmed.uppercased().contains("REALITY CHECK") {
+                capturing = true
+                if !trimmed.contains("===") && !trimmed.isEmpty {
+                    result += trimmed + "\n"
+                }
+                continue
+            }
+            
+            // Stop capturing when we hit symbols section
+            if capturing && (trimmed.uppercased().contains("SYMBOLS FORMAT") ||
+                           (trimmed.contains("|") && trimmed.uppercased().contains("SYMBOL:"))) {
+                break
+            }
+            
+            if capturing && !trimmed.isEmpty && !trimmed.starts(with: "===") {
+                result += trimmed + "\n"
+            }
+        }
+        
+        return result.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func cleanUpText(_ text: String) -> String {
@@ -191,18 +352,50 @@ class NovitaAIClient {
     }
     
     private func parseSymbolLine(_ line: String, into symbols: inout [DreamSymbol]) {
+        print("🔍 Parsing symbol line: '\(line)'")
+        
+        // Handle different symbol formats:
+        // Format 1: "Symbol: Name | Meaning: Description"
+        // Format 2: "Symbol: Name | Description"
+        // Format 3: "Name | Description"
+        
         let components = line.components(separatedBy: "|")
         if components.count >= 2 {
             let symbolPart = components[0].trimmingCharacters(in: .whitespacesAndNewlines)
             let meaningPart = components[1].trimmingCharacters(in: .whitespacesAndNewlines)
             
-            let symbolName = symbolPart.replacingOccurrences(of: "Symbol:", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
-            let symbolMeaning = meaningPart.replacingOccurrences(of: "Meaning:", with: "").trimmingCharacters(in: .whitespacesAndNewlines)
+            // Extract symbol name (remove "Symbol:" prefix if present)
+            var symbolName = symbolPart
+                .replacingOccurrences(of: "Symbol:", with: "", options: .caseInsensitive)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
             
-            if !symbolName.isEmpty && !symbolMeaning.isEmpty {
-                symbols.append(DreamSymbol(symbol: symbolName, meaning: symbolMeaning))
-                print("✅ Parsed symbol: \(symbolName) - \(symbolMeaning)")
+            // Extract meaning (remove "Meaning:" prefix if present)
+            let symbolMeaning = meaningPart
+                .replacingOccurrences(of: "Meaning:", with: "", options: .caseInsensitive)
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+            
+            // Ensure symbol name is a single word (take first word if multiple)
+            let symbolWords = symbolName.components(separatedBy: .whitespaces)
+            if !symbolWords.isEmpty {
+                symbolName = symbolWords[0].capitalized
             }
+            
+            // Validate and add symbol
+            if !symbolName.isEmpty && !symbolMeaning.isEmpty && symbolName.count > 1 {
+                let newSymbol = DreamSymbol(symbol: symbolName, meaning: symbolMeaning)
+                
+                // Avoid duplicates
+                if !symbols.contains(where: { $0.symbol.lowercased() == symbolName.lowercased() }) {
+                    symbols.append(newSymbol)
+                    print("✅ Parsed symbol: \(symbolName) - \(symbolMeaning)")
+                } else {
+                    print("⚠️ Duplicate symbol ignored: \(symbolName)")
+                }
+            } else {
+                print("❌ Invalid symbol format: name='\(symbolName)', meaning='\(symbolMeaning)'")
+            }
+        } else {
+            print("❌ Symbol line doesn't contain pipe separator: '\(line)'")
         }
     }
     
