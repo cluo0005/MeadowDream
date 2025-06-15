@@ -82,14 +82,7 @@ struct DreamHomeView: View {
                                         .lineSpacing(2)
                                         .padding(.horizontal, 40)
                                     
-                                    // Record Button
-                                    Text("Tap the Record button in the bottom navigation to get started")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(.secondary)
-                                        .padding(.horizontal, 24)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemFill))
-                                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                            
                                 }
                                 
                                 Spacer()
