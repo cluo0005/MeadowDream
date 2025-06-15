@@ -5,13 +5,12 @@
 import SwiftUI
 
 struct SplashView: View {
-    @State private var animateStars = false
-    @State private var animateDots = false
-    @State private var currentDotCount = 1
+    @State private var loadingDots: [Bool] = [false, false, false]
+    @State private var stars: [StarData] = []
     
     var body: some View {
         ZStack {
-            // Background Gradient
+            // Gradient Background (matching HTML gradient)
             LinearGradient(
                 gradient: Gradient(colors: [
                     Color(red: 0.357, green: 0.498, blue: 1.0),
@@ -22,76 +21,117 @@ struct SplashView: View {
             )
             .ignoresSafeArea()
             
-            // Animated Stars Background
-            ForEach(0..<30, id: \.self) { index in
+            // Stars Container
+            ForEach(stars.indices, id: \.self) { index in
                 Circle()
-                    .fill(Color.white.opacity(0.8))
-                    .frame(width: CGFloat.random(in: 2...4), height: CGFloat.random(in: 2...4))
-                    .position(
-                        x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
-                        y: CGFloat.random(in: 0...UIScreen.main.bounds.height)
-                    )
-                    .opacity(animateStars ? 1.0 : 0.3)
+                    .fill(Color.white)
+                    .frame(width: stars[index].size, height: stars[index].size)
+                    .position(x: stars[index].x, y: stars[index].y)
+                    .opacity(stars[index].opacity)
                     .animation(
-                        Animation.easeInOut(duration: Double.random(in: 1...3))
+                        Animation.easeInOut(duration: 2)
                             .repeatForever(autoreverses: true)
-                            .delay(Double.random(in: 0...2)),
-                        value: animateStars
+                            .delay(stars[index].delay),
+                        value: stars[index].opacity
                     )
             }
             
-            VStack(spacing: 40) {
-                // App Logo/Title
-                VStack(spacing: 16) {
-                    Image(systemName: "moon.stars.fill")
-                        .font(.system(size: 80))
-                        .foregroundColor(.white)
-                        .shadow(color: .white.opacity(0.3), radius: 10)
+            // Main Content Container
+            VStack(spacing: 0) {
+                Spacer()
+                
+                // Logo Container (120x120 like HTML)
+                ZStack {
+                    // White background with shadow
+                    RoundedRectangle(cornerRadius: 30)
+                        .fill(Color.white)
+                        .frame(width: 120, height: 120)
+                        .shadow(color: Color.black.opacity(0.1), radius: 25, x: 0, y: 10)
                     
-                    VStack(spacing: 8) {
-                        Text("MeadowDream")
-                            .font(.system(size: 32, weight: .light, design: .serif))
-                            .foregroundColor(.white)
-                            .shadow(color: .white.opacity(0.3), radius: 5)
-                        
-                        Text("Record dreams, explore your mind, receive positive guidance")
-                            .font(.system(size: 16, weight: .light))
-                            .foregroundColor(.white.opacity(0.9))
-                            .multilineTextAlignment(.center)
-                            .shadow(color: .white.opacity(0.2), radius: 3)
-                    }
+                    // Moon icon (60px like HTML)
+                    Image(systemName: "moon.fill")
+                        .font(.system(size: 60))
+                        .foregroundColor(Color(red: 0.357, green: 0.498, blue: 1.0)) // Theme primary color
                 }
                 
-                // Loading Animation
+                // Title (24px spacing from logo like HTML)
+                Text("Meadow Dream")
+                    .font(.system(size: 32, weight: .bold))
+                    .foregroundColor(.white)
+                    .padding(.top, 24)
+                
+                // Tagline (8px spacing from title like HTML)
+                Text("Record dreams, explore your mind, receive positive guidance")
+                    .font(.system(size: 16, weight: .regular))
+                    .foregroundColor(.white.opacity(0.9))
+                    .multilineTextAlignment(.center)
+                    .frame(maxWidth: 280) // Max width like HTML
+                    .padding(.top, 8)
+                
+                // Loading Dots (40px spacing from tagline like HTML)
                 HStack(spacing: 8) {
-                    Text("Loading")
-                        .font(.system(size: 18, weight: .light))
-                        .foregroundColor(.white.opacity(0.9))
-                    
-                    HStack(spacing: 4) {
-                        ForEach(1...3, id: \.self) { index in
-                            Circle()
-                                .fill(Color.white)
-                                .frame(width: 6, height: 6)
-                                .opacity(currentDotCount >= index ? 1.0 : 0.3)
-                        }
+                    ForEach(0..<3, id: \.self) { index in
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 8, height: 8)
+                            .opacity(loadingDots[index] ? 1.0 : 0.6)
+                            .scaleEffect(loadingDots[index] ? 1.2 : 1.0)
+                            .animation(
+                                Animation.easeInOut(duration: 1.5)
+                                    .repeatForever(autoreverses: true)
+                                    .delay(Double(index) * 0.3),
+                                value: loadingDots[index]
+                            )
                     }
                 }
+                .padding(.top, 40)
+                
+                Spacer()
             }
+            .padding(.horizontal, 20)
         }
         .onAppear {
-            animateStars = true
-            startDotAnimation()
+            setupStars()
+            startLoadingAnimation()
         }
     }
     
-    private func startDotAnimation() {
-        Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { timer in
-            withAnimation(.easeInOut(duration: 0.3)) {
-                currentDotCount = currentDotCount == 3 ? 1 : currentDotCount + 1
+    private func setupStars() {
+        // Create 50 stars like HTML
+        stars = (0...49).map { _ in
+            StarData(
+                x: CGFloat.random(in: 0...UIScreen.main.bounds.width),
+                y: CGFloat.random(in: 0...UIScreen.main.bounds.height),
+                size: CGFloat.random(in: 1...3), // Random size between 1-3 points like HTML
+                opacity: 0,
+                delay: Double.random(in: 0...4)
+            )
+        }
+        
+        // Start star animations
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            for index in stars.indices {
+                stars[index].opacity = 0.8
             }
         }
     }
+    
+    private func startLoadingAnimation() {
+        // Start loading dots animation
+        for index in 0..<3 {
+            DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.3) {
+                loadingDots[index] = true
+            }
+        }
+    }
+}
+
+struct StarData {
+    let x: CGFloat
+    let y: CGFloat
+    let size: CGFloat
+    var opacity: Double
+    let delay: Double
 }
 
 #Preview {

@@ -9,6 +9,8 @@ import FirebaseCore
 struct MeadowDreamApp: App {
     @StateObject private var authManager = AuthenticationManager()
     @State private var showingSplash = true
+    @State private var showingOnboarding = false
+    @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @AppStorage("isDarkMode") private var isDarkMode = false
     
     init() {
@@ -21,6 +23,12 @@ struct MeadowDreamApp: App {
                 if showingSplash {
                     SplashView()
                         .transition(.opacity)
+                } else if !hasSeenOnboarding {
+                    OnboardingView()
+                        .transition(.opacity)
+                        .onDisappear {
+                            hasSeenOnboarding = true
+                        }
                 } else {
                     ContentView()
                         .environmentObject(authManager)
