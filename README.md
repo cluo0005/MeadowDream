@@ -104,16 +104,6 @@ MeadowDream/
 
 ---
 
-## 📌 Notes
-
-- All UI is built using **SwiftUI**
-- Navigation and state logic are simplified for demo
-- Extend each view with real data and logic as needed
-- For the UI/UX experience without setup, view the live prototype:  
-  👉 [https://cluo0005.github.io/MeadowDream/](https://cluo0005.github.io/MeadowDream/)
-
----
-
 ## 🙌 Why It Matters
 
 Meadow Dream isn’t just about decoding dreams — it’s about using them to fuel personal growth.  
@@ -129,7 +119,18 @@ Built with ❤️ using:
 as part of the **Zero Limits Hackathon | Lablab.ai**
 
 
-## 📺 Optional: Video Demo
+## 📺 Demo
+
+For the UI/UX experience without setup, view the live prototype:  
+  👉 [https://cluo0005.github.io/MeadowDream/](https://cluo0005.github.io/MeadowDream/)
+
+Powerpoint：
+
+https://docs.google.com/presentation/d/1UXrTZcqiT65Wym4ckokD7e0tKySvb0AFE2FXn38aWoQ/edit?usp=sharing
+
+Youtube：
+
+https://youtu.be/Twsl4xqPNtc
 
 https://youtube.com/shorts/eUrig61njsQ?feature=share 
 
