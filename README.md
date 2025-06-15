@@ -131,7 +131,13 @@ as part of the **Zero Limits Hackathon | Lablab.ai**
 
 ## 📺 Optional: Video Demo
 
-Coming soon — demo walkthrough of the app in action.
+https://youtube.com/shorts/eUrig61njsQ?feature=share 
+
+https://youtube.com/shorts/riRTHnPdvTI?feature=share 
+
+https://youtube.com/shorts/eyGdtZNxoJE?feature=share 
+
+https://youtube.com/shorts/Nw8nkOwxY_A?feature=share
 
 ---
 
